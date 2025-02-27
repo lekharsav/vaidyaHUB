@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('includes/db.php'); // Ensure this is correct
+include('connect.php'); // Ensure this is correct
 
 $msg = '';
 

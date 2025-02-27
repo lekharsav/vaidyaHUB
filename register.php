@@ -1,6 +1,5 @@
-<?php
-
-include('includes/db.php'); //
+<?php 
+include('connect.php');
 include('smtp/PHPMailerAutoload.php');
 session_start();
 
@@ -9,10 +8,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['signup'])) {
     $email = mysqli_real_escape_string($con, $_POST['email']);
     $phone = mysqli_real_escape_string($con, $_POST['phone']);
     $password = mysqli_real_escape_string($con, $_POST['password']);
-
-    // Hash password using MD5
-    $hashed_password = md5($password);  // ✅ Fixed MD5 hashing
-
+    
+    // Hash password using MD5 (Consider stronger hashing like password_hash in production)
+    $hashed_password = md5($password);
+    
     $otp = rand(1000, 9999);
 
     // Store data in session for verification
@@ -28,12 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['signup'])) {
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'greenery.freshh@gmail.com'; 
-        $mail->Password = 'kcmeicsiauxfvftd'; // Use your app password
+        $mail->Username = 'lekharsavbose@gmail.com'; 
+        $mail->Password = 'zhaxpeydxrfhdxad'; // Use your app password
         $mail->SMTPSecure = 'tls';
         $mail->Port = 587;
 
-        $mail->setFrom('greenery.freshh@gmail.com', 'medimicecare');
+        $mail->setFrom('lekharsavbose@gmail.com', 'Vaidhyahub');
         $mail->addAddress($email);
         $mail->Subject = 'Your OTP Code';
         $mail->Body = 'Your OTP for account verification is: ' . $otp;
@@ -44,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['signup'])) {
     }
 }
 ?>
+
 <?php if (isset($_SESSION['otp'])): ?>
 <!-- OTP Verification Page -->
 <!DOCTYPE html>

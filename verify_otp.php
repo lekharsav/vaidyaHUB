@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('includes/db.php'); //
+include('connect.php'); //
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['verify'])) {
     $entered_otp = $_POST['otp'];
