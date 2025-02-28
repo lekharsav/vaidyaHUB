@@ -1,5 +1,6 @@
 <?php
-session_start();
+
+include 'navbar.php';
 include 'connect.php'; // Database connection
 
 // Check if user is logged in
@@ -8,93 +9,44 @@ if (!isset(  $_SESSION['uid'])) {
     exit();
 }
 
-$u_id =    $_SESSION['uid'] ;// Logged-in user ID
+$u_id =  $_SESSION['uid']; // Logged-in user ID
 
 // Fetch treatments
-$treatmentQuery = "SELECT * FROM treatments";
+$treatmentQuery = "SELECT * FROM doctors";
 $treatmentResult = mysqli_query($con, $treatmentQuery);
 
 // Fetch appointment history for the logged-in user
-$appointmentQuery = "SELECT a.*, u.u_name AS doctor_name, t.treatment_name 
-                     FROM appointments a
-                     JOIN users u ON a.d_id = u.u_id
-                     JOIN treatments t ON a.treatment_id = t.treatment_id
-                     WHERE a.p_id = $u_id
-                     ORDER BY a.appointment_date DESC";
+$appointmentQuery = "select * from appointments";
 $appointmentResult = mysqli_query($con, $appointmentQuery);
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Appointment</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <style>
-        body {
-            background-color: #f8f9fa;
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .form-container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .history-sidebar {
-            position: fixed;
-            top: 0;
-            right: -400px;
-            width: 400px;
-            height: 100%;
-            background: white;
-            box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
-            transition: right 0.3s ease;
-            padding: 20px;
-            z-index: 1000;
-        }
-        .history-sidebar.open {
-            right: 0;
-        }
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            display: none;
-        }
-        .overlay.active {
-            display: block;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
+
+
+
+    <div class="container" style="margin-top: 30px;">
         <!-- Appointment Booking Form -->
         <div class="form-container">
             <h2 class="text-center mb-4">Book an Appointment</h2>
             <form action="book_appointment.php" method="POST">
                 <div class="mb-3">
                     <label for="treatment" class="form-label">Select Treatment</label>
-                    <select class="form-select" id="treatment" name="treatment_id" required>
-                        <option value="">Choose a treatment</option>
-                        <?php while ($treatment = mysqli_fetch_assoc($treatmentResult)) { ?>
-                            <option value="<?php echo $treatment['treatment_id']; ?>">
-                                <?php echo $treatment['treatment_name']; ?>
-                            </option>
-                        <?php } ?>
-                    </select>
+                    <select class="form-select" id="specialization" name="specialization" required>
+    <option value="">Choose a specialization</option>
+    <?php
+    // Fetch all unique specializations from the doctors table
+    $specializationQuery = "SELECT DISTINCT specialization FROM doctors";
+    $specializationResult = mysqli_query($con, $specializationQuery);
+
+    while ($specialization = mysqli_fetch_assoc($specializationResult)) { ?>
+        <option value="<?php echo $specialization['specialization']; ?>">
+            <?php echo $specialization['specialization']; ?>
+        </option>
+    <?php } ?>
+</select>
+
                 </div>
+
+                
                 <div class="mb-3">
                     <label for="doctor" class="form-label">Select Doctor</label>
                     <select class="form-select" id="doctor" name="d_id" required>
@@ -149,38 +101,83 @@ $appointmentResult = mysqli_query($con, $appointmentQuery);
 
     <!-- Overlay -->
     <div class="overlay" id="overlay" onclick="toggleHistorySidebar()"></div>
+<?php 
 
+
+include 'footer.php';
+
+
+?>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JS -->
     <script>
-        // Fetch doctors based on selected treatment
-        document.getElementById('treatment').addEventListener('change', function () {
-            const treatmentId = this.value;
-            const doctorSelect = document.getElementById('doctor');
-            doctorSelect.innerHTML = '<option value="">Choose a doctor</option>';
+    document.getElementById('specialization').addEventListener('change', function () {
+        const specialization = this.value;
+        const doctorSelect = document.getElementById('doctor');
 
-            if (treatmentId) {
-                fetch(`fetch_doctors.php?treatment_id=${treatmentId}`)
-                    .then(response => response.json())
-                    .then(doctors => {
-                        doctors.forEach(doctor => {
-                            const option = document.createElement('option');
-                            option.value = doctor.u_id;
-                            option.textContent = doctor.u_name;
-                            doctorSelect.appendChild(option);
-                        });
+        doctorSelect.innerHTML = '<option value="">Choose a doctor</option>';
+
+        if (specialization) {
+            fetch(`fetch_doctors.php?specialization=${specialization}`)
+                .then(response => response.json())
+                .then(doctors => {
+                    doctors.forEach(doctor => {
+                        const option = document.createElement('option');
+                        option.value = doctor.d_id; // Use doctor ID for booking
+                        option.textContent = doctor.d_name; // Show doctor name
+                        doctorSelect.appendChild(option);
                     });
-            }
-        });
-
-        // Toggle history sidebar
-        function toggleHistorySidebar() {
-            const sidebar = document.getElementById('historySidebar');
-            const overlay = document.getElementById('overlay');
-            sidebar.classList.toggle('open');
-            overlay.classList.toggle('active');
+                })
+                .catch(error => console.error('Error fetching doctors:', error));
         }
-    </script>
-</body>
-</html>
+    });
+</script>
+<style>
+
+
+     
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .history-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100%;
+            background: white;
+            box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        .history-sidebar.open {
+            right: 0;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+    </style>
