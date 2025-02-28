@@ -83,7 +83,7 @@ $res=mysqli_query($con,$sql);
 <section class="products" id="products">
         <h3 class="text-center">Featured Products</h3>
         <div class="swiper mySwiper">
-            <div class="swiper-wrapper">
+            <div class="swiper-wrapper" style="height: 400px;">
                 <?php while($row = mysqli_fetch_assoc($res)) { ?>
                     <div class="swiper-slide">
                         <div class="product">

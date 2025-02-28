@@ -43,7 +43,7 @@ session_start();
     <!-- Top Bar -->
    
     <!-- Fixed Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light   fixed-top py-1" style="background-color:#58c492;">
+    <nav class="navbar navbar-expand-lg navbar-light   fixed-top py-1" style="background-color:#d3d8d8d9;">
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand d-flex align-items-center" href="index.php">
@@ -60,7 +60,7 @@ session_start();
                 <ul class="navbar-nav mx-auto fw-bold">
                     <li class="nav-item"><a class="nav-link text-dark" href="index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link text-dark" href="about.php">About</a></li>
-                    <li class="nav-item"><a class="nav-link text-dark" href="service.php">Services</a></li>
+                    <li class="nav-item"><a class="nav-link text-dark" href="order_details.php">Order</a></li>
 
 
                     <!-- Doctor Dropdown -->
