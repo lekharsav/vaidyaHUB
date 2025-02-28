@@ -3,12 +3,12 @@ session_start();
 include 'connect.php'; // Database connection
 
 // Check if user is logged in
-if (!isset($_SESSION['uid'])) {
+if (!isset(  $_SESSION['uid'])) {
     header("Location: login.php"); // Redirect to login if not logged in
     exit();
 }
 
-$u_id =  $_SESSION['uid'] ;// Logged-in user ID
+$u_id =    $_SESSION['uid'] ;// Logged-in user ID
 
 // Fetch treatments
 $treatmentQuery = "SELECT * FROM treatments";
