@@ -1,3 +1,8 @@
+<?php
+session_start();
+?>
+
+
 <!-- Favicon -->
 <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
 
@@ -38,7 +43,7 @@
     <!-- Top Bar -->
    
     <!-- Fixed Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-lg fixed-top py-1">
+    <nav class="navbar navbar-expand-lg navbar-light   fixed-top py-1" style="background-color:#58c492;">
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand d-flex align-items-center" href="index.php">
@@ -85,15 +90,16 @@
                             <i class="icofont-user-alt-5 fs-4 me-2"></i>
                         </a>
                         <ul class="dropdown-menu border-0 shadow p-3">
-                            <?php if (isset($_SESSION['u_id'])) { ?>
-                                <li><a class="dropdown-item" href="profile.php">My Account</a></li>
-                                <li><a class="dropdown-item" href="add-account.php">Add Another Account</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-danger" href="logout.php">Logout</a></li>
-                            <?php } else { ?>
-                                <li><a class="dropdown-item" href="login.php">Login</a></li>
-                            <?php } ?>
-                        </ul>
+    <?php if (isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN'] === 'yes') { ?>
+        <li><a class="dropdown-item" href="profile.php">My Account</a></li>
+        <li><a class="dropdown-item" href="add-account.php">Add Another Account</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item text-danger" href="logout.php">Logout</a></li>
+    <?php } else { ?>
+        <li><a class="dropdown-item" href="login.php">Login</a></li>
+    <?php } ?>
+</ul>
+
                     </li>
                 </ul>
             </div>
