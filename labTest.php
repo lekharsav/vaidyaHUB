@@ -5,7 +5,7 @@ include "connect.php";
 
 <!-- Lab Test Section -->
 <div class="container mt-5">
-  <h2 class="text-center mb-4">Book a Lab Test</h2>
+  <h2 class="text-center mb-4">📑 Book a Lab Test</h2>
 
   <div class="row">
     <?php
@@ -15,17 +15,21 @@ include "connect.php";
     if (mysqli_num_rows($result) > 0) {
       while ($row = mysqli_fetch_assoc($result)) {
         echo '
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <img src="' . $row['image'] . '" class="card-img-top" alt="' . $row['test_name'] . '">
-                        <div class="card-body">
-                            <h5 class="card-title">' . $row['test_name'] . '</h5>
-                            <p class="card-text">' . $row['description'] . '</p>
-                            <p class="card-text"><strong>Price:</strong> ₹' . $row['price'] . '</p>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookTestModal" data-id="' . $row['lt_id'] . '" data-name="' . $row['test_name'] . '">Book Now</button>
-                        </div>
-                    </div>
-                </div>';
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-lg lab-card">
+                <img src="images/service/' . $row['image'] . '" class="card-img-top img-fluid" alt="' . $row['test_name'] . '">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold">' . $row['test_name'] . '</h5>
+                    <p class="card-text text-muted">' . $row['description'] . '</p>
+                    <p class="card-text"><strong>💰 Price:</strong> ₹' . $row['price'] . '</p>
+                    <button class="btn book-btn" data-bs-toggle="modal" data-bs-target="#bookTestModal" 
+                        data-id="' . $row['lt_id'] . '" 
+                        data-name="' . $row['test_name'] . '">
+                        🚀 Book Now
+                    </button>
+                </div>
+            </div>
+        </div>';
       }
     } else {
       echo '<p class="text-center">No lab tests available at the moment.</p>';
@@ -36,10 +40,10 @@ include "connect.php";
 
 <!-- Booking Modal -->
 <div class="modal fade" id="bookTestModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg"> <!-- Increased modal size -->
+  <div class="modal-dialog modal-lg modal-animate"> <!-- Smooth transition effect -->
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalLabel">Book Lab Test</h5>
+        <h5 class="modal-title" id="modalLabel">🧪 Book Your Lab Test</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -98,14 +102,14 @@ include "connect.php";
           </div>
 
           <div class="text-center">
-            <button type="submit" class="btn btn-success px-4">Confirm Booking</button>
+            <button type="submit" class="btn btn-success book-confirm">✅ Confirm Booking</button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
-
+<?php include "footer.php"?>
 <script>
   // Set modal values when booking button is clicked
   document.querySelectorAll('button[data-bs-target="#bookTestModal"]').forEach(button => {
@@ -117,25 +121,62 @@ include "connect.php";
 </script>
 
 <style>
-  .modal-lg {
-    max-width: 700px;
+  /* Smooth hover effect on lab test cards */
+  .lab-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  .lab-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
   }
 
-  .modal-title {
+  /* Custom Book Now button */
+  .book-btn {
+    background: linear-gradient(45deg, #007bff, #6610f2);
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
     font-weight: bold;
+    border-radius: 8px;
+    transition: all 0.3s ease;
   }
 
-  .btn-success {
+  .book-btn:hover {
+    background: linear-gradient(45deg, #6610f2, #007bff);
+    transform: scale(1.1);
+  }
+
+  /* Smooth modal appearance */
+  .modal-animate .modal-content {
+    animation: fadeInUp 0.5s ease-in-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      transform: translateY(50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Confirm Booking Button */
+  .book-confirm {
     background-color: #28a745;
     border: none;
-    transition: 0.3s;
+    padding: 10px 20px;
+    font-size: 16px;
+    transition: all 0.3s ease;
   }
 
-  .btn-success:hover {
+  .book-confirm:hover {
     background-color: #218838;
-  }
-
-  .form-label {
-    font-weight: bold;
+    transform: scale(1.1);
   }
 </style>

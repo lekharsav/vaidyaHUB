@@ -1,153 +1,195 @@
-<!DOCTYPE html>
-<php lang="zxx">
-<head>
-  <meta http-equiv="Content-Type" content="text/php; charset=UTF-8">
-  <meta name="description" content="Orbitor,business,company,agency,modern,bootstrap4,tech,software">
-  <meta name="author" content="themefisher.com">
+<!-- Favicon -->
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
 
-  <title>Novena- Health & Care Medical template</title>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-  <!-- Favicon -->
-  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
+<!-- FontAwesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
-  <!-- bootstrap.min css -->
-  <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-  
-  <!-- Icon Font Css -->
-  <link rel="stylesheet" href="plugins/icofont/icofont.min.css">
-  <!-- Slick Slider  CSS -->
-  <link rel="stylesheet" href="plugins/slick-carousel/slick/slick.css">
-  <link rel="stylesheet" href="plugins/slick-carousel/slick/slick-theme.css">
+<!-- Icon Font CSS -->
+<link rel="stylesheet" href="plugins/icofont/icofont.min.css">
 
-  <!-- Owl Carousel CSS -->
+<!-- Slick Slider CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+
+<!-- Owl Carousel CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
 
-<!-- jQuery (Required for Owl Carousel) -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<!-- Main Stylesheet -->
+<link rel="stylesheet" href="css/style.css">
+
+<!-- jQuery (Required for Owl Carousel & Swiper) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-<!-- Owl Carousel JS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  
 
-  <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="css/style.css">
+  <header>
+    <!-- Top Bar -->
+   
+    <!-- Fixed Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-lg fixed-top py-3">
+        <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand d-flex align-items-center" href="index.php">
+                <img src="images/loge.png" alt="Logo" class="img-fluid" style="width: 140px; height: 50px;">
+            </a>
 
-  <!-- search bar -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+            <!-- Navbar Toggler -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarmain">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-  
+            <!-- Navbar Links -->
+            <div class="collapse navbar-collapse" id="navbarmain">
+                <ul class="navbar-nav mx-auto fw-bold">
+                    <li class="nav-item"><a class="nav-link text-dark" href="index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link text-dark" href="about.php">About</a></li>
+                    <li class="nav-item"><a class="nav-link text-dark" href="service.php">Services</a></li>
 
-</head>
+                    <!-- Department Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">Department</a>
+                        <ul class="dropdown-menu border-0 shadow">
+                            <li><a class="dropdown-item" href="department.php">All Departments</a></li>
+                            <li><a class="dropdown-item" href="department-single.php">Single Department</a></li>
+                        </ul>
+                    </li>
 
-<body id="top">
+                    <!-- Doctor Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">Doctors</a>
+                        <ul class="dropdown-menu border-0 shadow">
+                            <li><a class="dropdown-item" href="doctor.php">Our Doctors</a></li>
+                            <li><a class="dropdown-item" href="doctor-single.php">Doctor Profile</a></li>
+                            <li><a class="dropdown-item" href="appointment.php">Book Appointment</a></li>
+                        </ul>
+                    </li>
 
-<header>
-	<div class="header-top-bar">
-		<div class="container">
-			<div class="row align-items-center">
-				<div class="col-lg-6">
-					<ul class="top-bar-info list-inline-item pl-0 mb-0">
-						<li class="list-inline-item"><a href="rickbasu75@gmail.com"><i class="icofont-support-faq mr-2"></i>support@vaidyahub.com</a></li>
-						<li class="list-inline-item"><i class="icofont-location-pin mr-2"></i>Address Alipurduar junction,India </li>
-					</ul>
-				</div>
-				<div class="col-lg-6">
-					<div class="text-lg-right top-right-bar mt-2 mt-lg-0">
-						<a href="tel:+918348416396" >
-							<span>Call Now : </span>
-							<span class="h4">8348416396</span>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<nav class="navbar navbar-expand-lg navigation" id="navbar">
-		<div class="container" style="height: 50px;">
-		<img src="images/loge.png" alt="" class="img-fluid" style="width: 100px; height: 40px; object-fit:cover ;margin-bottom:17px">
-		 	 <a class="navbar-brand" href="index.php"></a>
+                    <!-- Blog Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">Blog</a>
+                        <ul class="dropdown-menu border-0 shadow">
+                            <li><a class="dropdown-item" href="blog-sidebar.php">Blog with Sidebar</a></li>
+                            <li><a class="dropdown-item" href="blog-single.php">Single Blog</a></li>
+                        </ul>
+                    </li>
 
-		  	<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarmain" aria-controls="navbarmain" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="icofont-navigation-menu"></span>
-		  </button>
-	  
-		  <div class="collapse navbar-collapse" id="navbarmain">
-			<ul class="navbar-nav ml-auto">
-			  <li class="nav-item active">
-				<a class="nav-link" href="index.php">Home</a>
-			  </li>
-			   <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
-			    <li class="nav-item"><a class="nav-link" href="service.php">Services</a></li>
+                    <li class="nav-item"><a class="nav-link text-dark" href="contact.php">Contact</a></li>
+                </ul>
 
-			    <li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="department.php" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Department <i class="icofont-thin-down"></i></a>
-					<ul class="dropdown-menu" aria-labelledby="dropdown02">
-						<li><a class="dropdown-item" href="department.php">Departments</a></li>
-						<li><a class="dropdown-item" href="department-single.php">Department Single</a></li>
-					</ul>
-			  	</li>
+                <!-- Right Side Buttons -->
+                <ul class="navbar-nav d-flex align-items-center">
+                    <!-- Cart Button -->
+                    <li class="nav-item me-3">
+                        <a href="cart.php" class="nav-link text-dark position-relative">
+                            <i class="icofont-cart fs-4"></i>
+                            <span class="badge bg-danger position-absolute top-0 start-100 translate-middle" id="cart-count">3</span>
+                        </a>
+                    </li>
 
-			  	<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="doctor.php" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Doctors <i class="icofont-thin-down"></i></a>
-					<ul class="dropdown-menu" aria-labelledby="dropdown03">
-						<li><a class="dropdown-item" href="doctor.php">Doctors</a></li>
-						<li><a class="dropdown-item" href="doctor-single.php">Doctor Single</a></li>
-						<li><a class="dropdown-item" href="appoinment.php">Appoinment</a></li>
-					</ul>
-			  	</li>
-
-			   <li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="blog-sidebar.php" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Blog <i class="icofont-thin-down"></i></a>
-					<ul class="dropdown-menu" aria-labelledby="dropdown05">
-						<li><a class="dropdown-item" href="blog-sidebar.php">Blog with Sidebar</a></li>
-
-						<li><a class="dropdown-item" href="blog-single.php">Blog Single</a></li>
-					</ul>
-			  	</li>
-			   <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
-			</ul>
-		  </div>
-		</div>
-	</nav>
+                    <!-- Profile Button with Pop-out Menu -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-dark d-flex align-items-center dropdown-toggle" href="#" id="profileMenu" data-bs-toggle="dropdown">
+                            <i class="icofont-user-alt-5 fs-4 me-2"></i>
+                        </a>
+                        <ul class="dropdown-menu border-0 shadow p-3">
+                            <?php if (isset($_SESSION['u_id'])) { ?>
+                                <li><a class="dropdown-item" href="profile.php">My Account</a></li>
+                                <li><a class="dropdown-item" href="add-account.php">Add Another Account</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="logout.php">Logout</a></li>
+                            <?php } else { ?>
+                                <li><a class="dropdown-item" href="login.php">Login</a></li>
+                            <?php } ?>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 </header>
 
+<!-- Add margin-top to prevent content from hiding behind the fixed navbar -->
+<style>
+    body {
+        padding-top: 90px; /* Adjusted for fixed navbar */
+    }
 
+    .navbar {
+        transition: all 0.3s ease-in-out;
+    }
 
-  
+    .navbar .nav-item .nav-link {
+        transition: color 0.3s ease-in-out;
+    }
 
-    <!-- 
-    Essential Scripts
-    =====================================-->
+    .navbar .nav-item .nav-link:hover {
+        color: #007bff !important;
+    }
 
-    
-    <!-- Main jQuery -->
-    <script src="plugins/jquery/jquery.js"></script>
-    <!-- Bootstrap 4.3.2 -->
-    <script src="plugins/bootstrap/js/popper.js"></script>
-    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
-    <script src="plugins/counterup/jquery.easing.js"></script>
-    <!-- Slick Slider -->
-    <script src="plugins/slick-carousel/slick/slick.min.js"></script>
-    <!-- Counterup -->
-    <script src="plugins/counterup/jquery.waypoints.min.js"></script>
-    
-    <script src="plugins/shuffle/shuffle.min.js"></script>
-    <script src="plugins/counterup/jquery.counterup.min.js"></script>
-    <!-- Google Map -->
-    <script src="plugins/google-map/map.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkeLMlsiwzp6b3Gnaxd86lvakimwGA6UA&callback=initMap"></script>    
-    
-    <script src="js/script.js"></script>
-    <script src="js/contact.js"></script>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    /* Profile Dropdown Styling */
+    .dropdown-menu {
+        min-width: 200px;
+        border-radius: 10px;
+    }
+
+    .dropdown-menu a {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .dropdown-menu a:hover {
+        background-color: #f8f9fa;
+    }
+</style>
+
+<!-- 
+Essential Scripts
+=====================================-->
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap 4.3.2 -->
+<script src="plugins/bootstrap/js/popper.js"></script>
+<script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Slick Slider -->
+<script src="plugins/slick-carousel/slick/slick.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+<!-- Counterup -->
+<script src="plugins/counterup/jquery.easing.js"></script>
+<script src="plugins/counterup/jquery.waypoints.min.js"></script>
+<script src="plugins/counterup/jquery.counterup.min.js"></script>
+
+<!-- Shuffle JS -->
+<script src="plugins/shuffle/shuffle.min.js"></script>
+
+<!-- FontAwesome -->
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<!-- Google Map -->
+<script src="plugins/google-map/map.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkeLMlsiwzp6b3Gnaxd86lvakimwGA6UA&callback=initMap"></script>
+
+<!-- Custom Scripts -->
+<script src="js/script.js"></script>
+<script src="js/contact.js"></script>
 
   
 </body>

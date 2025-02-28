@@ -6,102 +6,75 @@ $sql="select * from medicine ";
 $res=mysqli_query($con,$sql);
 
 ?>
-<!-- Slider Start -->
-<section class="banner" style="padding: 40px 0;">
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<section class="banner">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-12 col-xl-7">
                 <div class="block">
-                    <div class="divider mb-3"></div>
-                    <span class="text-uppercase text-sm letter-spacing">Total Health Care Solution</span>
-                    <h1 class="mb-3 mt-3">Your Most Trusted Health Partner</h1>
+                    <div class="divider mb-3 fade-in"></div>
+                    <span class="text-uppercase text-sm letter-spacing floating-text text-highlight">Total Health Care Solution</span>
+                    <h1 class="mb-3 mt-3 floating-text">Your Most Trusted <span class="text-highlight">Health Partner</span></h1>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<section class="features" style="margin-top: -40px;">
+<section class="features py-5 bg-white">
     <div class="container">
-        <div class="row gy-3">
+        <div class="row g-4">
             <!-- Appointment Booking -->
-            <div class="col-lg-3 col-md-6 d-flex">
-                <div class="card text-center p-3 w-100 d-flex flex-column shadow-sm border-0">
-                    <div class="feature-icon mb-2">
-                        <i class="icofont-surgeon-alt display-6 text-success"></i>
+            <div class="col-lg-3 col-md-6">
+                <div class="card text-center p-4 shadow-sm border-0 rounded-4 feature-card">
+                    <div class="feature-icon mb-3">
+                        <i class="icofont-surgeon-alt display-5 text-primary"></i>
                     </div>
-                    <span class="fw-semibold small">24 Hours Service</span>
-                    <h6 class="mb-2">Appointment Booking</h6>
-                    <p class="flex-grow-1 text-muted small">Emergency support anytime. We follow the principle of family medicine.</p>
-                    <a href="appoinment.php" class="btn btn-success btn-sm px-3 py-1 mt-auto" 
-                       style="border-radius: 6px; font-size: 14px;">
-                       Make an Appointment
-                    </a>
+                    <h6 class="fw-bold text-dark">Appointment Booking</h6>
+                    <p class="text-muted small">24/7 Emergency support. We follow the principle of family medicine.</p>
+                    <a href="appoinment.php" class="btn btn-primary btn-sm rounded-pill px-4">Book Now</a>
                 </div>
             </div>
 
             <!-- Lab Test Booking -->
-            <div class="col-lg-3 col-md-6 d-flex">
-                <div class="card text-center p-3 w-100 d-flex flex-column shadow-sm border-0">
-                    <div class="feature-icon mb-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="green" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M10 2v12.5a4.5 4.5 0 1 1-3 0V2"/>
-                            <path d="M7 2h6"/>
-                            <path d="M10 14.5V22"/>
-                            <circle cx="10" cy="17" r="1"/>
-                            <circle cx="10" cy="20" r="1"/>
-                        </svg>
+            <div class="col-lg-3 col-md-6">
+                <div class="card text-center p-4 shadow-sm border-0 rounded-4 feature-card">
+                    <div class="feature-icon mb-3">
+                        <i class="icofont-laboratory display-5 text-danger"></i>
                     </div>
-                    <span class="fw-semibold small">Choose Your Time</span>
-                    <h6 class="mb-2">Book Your Lab Test</h6>
-                    <p class="flex-grow-1 text-muted small">Schedule lab tests at your convenience.</p>
-                    <a href="labTest.php" class="btn btn-success btn-sm px-3 py-1 mt-auto"
-                       style="border-radius: 6px; font-size: 14px;">
-                       Lab Test
-                    </a>
+                    <h6 class="fw-bold text-dark">Book Your Lab Test</h6>
+                    <p class="text-muted small">Schedule lab tests at your convenience with trusted diagnostics.</p>
+                    <a href="labTest.php" class="btn btn-danger btn-sm rounded-pill px-4">Book Test</a>
                 </div>
             </div>
 
             <!-- Room Booking -->
-            <div class="col-lg-3 col-md-6 d-flex">
-                <div class="card text-center p-3 w-100 d-flex flex-column shadow-sm border-0">
-                    <div class="feature-icon mb-2">
-                        <i class="icofont-bed display-6 text-success"></i>
+            <div class="col-lg-3 col-md-6">
+                <div class="card text-center p-4 shadow-sm border-0 rounded-4 feature-card">
+                    <div class="feature-icon mb-3">
+                        <i class="icofont-bed display-5 text-success"></i>
                     </div>
-                    <span class="fw-semibold small">Comfortable Rooms</span>
-                    <h6 class="mb-2">Book a Room for Treatment</h6>
-                    <p class="flex-grow-1 text-muted small">We provide comfortable treatment rooms.</p>
-                    <a href="roomBooking.php" class="btn btn-success btn-sm px-3 py-1 mt-auto"
-                       style="border-radius: 6px; font-size: 14px;">
-                       Bed Booking
-                    </a>
+                    <h6 class="fw-bold text-dark">Book a Room</h6>
+                    <p class="text-muted small">Comfortable treatment rooms for better recovery and care.</p>
+                    <a href="roomBooking.php" class="btn btn-success btn-sm rounded-pill px-4">Book Room</a>
                 </div>
             </div>
 
             <!-- Medicine Purchase -->
-            <div class="col-lg-3 col-md-6 d-flex">
-                <div class="card text-center p-3 w-100 d-flex flex-column shadow-sm border-0">
-                    <div class="feature-icon mb-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="green" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M10 2v12.5a4.5 4.5 0 1 1-3 0V2"/>
-                            <path d="M7 2h6"/>
-                            <path d="M10 14.5V22"/>
-                            <circle cx="10" cy="17" r="1"/>
-                            <circle cx="10" cy="20" r="1"/>
-                        </svg>
+            <div class="col-lg-3 col-md-6">
+                <div class="card text-center p-4 shadow-sm border-0 rounded-4 feature-card">
+                    <div class="feature-icon mb-3">
+					<i class="icofont-pills display-5 text-warning"></i>
                     </div>
-                    <span class="fw-semibold small">We Care for You</span>
-                    <h6 class="mb-2">Purchase Your Medicine</h6>
-                    <p class="flex-grow-1 text-muted small">Get prescribed medicines delivered fast.</p>
-                    <a href="medicine.php" class="btn btn-success btn-sm px-3 py-1 mt-auto"
-                       style="border-radius: 6px; font-size: 14px;">
-                       Click to Proceed
-                    </a>
+                    <h6 class="fw-bold text-dark">Purchase Medicine</h6>
+                    <p class="text-muted small">Order prescribed medicines with fast and secure delivery.</p>
+                    <a href="medicine.php" class="btn btn-warning btn-sm rounded-pill px-4 text-white">Shop Now</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
 
 
 
@@ -110,16 +83,16 @@ $res=mysqli_query($con,$sql);
 <section class="products" id="products">
     <h3 class="text-center">Featured Products</h3>
 
-    <div class="swiper-container position-relative">
-        <div class="swiper-wrapper" style="display: flex; align-items: center; gap: 5px;">
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
             <?php while($row = mysqli_fetch_assoc($res)) { ?>
-                <div class="swiper-slide" style="display: flex; justify-content: center;">
-                    <div class="product" style="width: 180px; padding: 10px; background: #f8f8f8; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: center;">
-                        <img src="product/<?php echo $row['image']; ?>" alt="Medicine Image" style="height:80px; width:80px; object-fit:cover;">
-                        <h4 style="font-size: 14px;"><?php echo $row['name']; ?></h4>
-                        <p style="font-size: 12px; margin-bottom: 5px;"><?php echo $row['description']; ?></p>
-						<p class="card-text text-success fw-bold">Rs<?php echo number_format($row['price'], 2); ?></p>
-						<a href="buy.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-success">Buy Now</a>
+                <div class="swiper-slide">
+                    <div class="product">
+                        <img src="product/<?php echo $row['image']; ?>" alt="Medicine Image">
+                        <h4><?php echo $row['name']; ?></h4>
+                        <p><?php echo $row['description']; ?></p>
+                        <p class="price">Rs <?php echo number_format($row['price'], 2); ?></p>
+                        <a href="buy.php?id=<?php echo $row['id']; ?>" class="btn">Buy Now</a>
                     </div>
                 </div>
             <?php } ?>
@@ -128,432 +101,298 @@ $res=mysqli_query($con,$sql);
         <!-- Swiper Navigation Buttons -->
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
+        <div class="swiper-pagination"></div>
     </div>
-
-    <!-- Swiper Pagination -->
-  
 </section>
 
-<!-- <section class="section about">
-	<div class="container">
-		<div class="row align-items-center">
-			<div class="col-lg-4 col-sm-6">
-				<div class="about-img">
-					<img src="images/about/img-1.jpg" alt="" class="img-fluid">
-					<img src="images/about/img-2.jpg" alt="" class="img-fluid mt-4">
-				</div>
-			</div>
-			<div class="col-lg-4 col-sm-6">
-				<div class="about-img mt-4 mt-lg-0">
-					<img src="images/about/img-3.jpg" alt="" class="img-fluid">
-				</div>
-			</div>
-			<div class="col-lg-4">
-				<div class="about-content pl-4 mt-4 mt-lg-0">
-					<h2 class="title-color">Personal care <br>& healthy living</h2>
-					<p class="mt-4 mb-5">We provide best leading medicle service Nulla perferendis veniam deleniti ipsum officia dolores repellat laudantium obcaecati neque.</p>
-
-					<a href="service.php" class="btn btn-main-2 btn-round-full btn-icon">Services<i class="icofont-simple-right ml-3"></i></a>
-				</div>
-			</div>
-		</div>
-	</div>
-</section> -->
-<!-- <section class="cta-section ">
-	<div class="container">
-		<div class="cta position-relative">
-			<div class="row">
-				<div class="col-lg-3 col-md-6 col-sm-6">
-					<div class="counter-stat">
-						<i class="icofont-doctor"></i>
-						<span class="h3">58</span>k
-						<p>Happy People</p>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6 col-sm-6">
-					<div class="counter-stat">
-						<i class="icofont-flag"></i>
-						<span class="h3">700</span>+
-						<p>Surgery Comepleted</p>
-					</div>
-				</div>
-				
-				<div class="col-lg-3 col-md-6 col-sm-6">
-					<div class="counter-stat">
-						<i class="icofont-badge"></i>
-						<span class="h3">40</span>+
-						<p>Expert Doctors</p>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6 col-sm-6">
-					<div class="counter-stat">
-						<i class="icofont-globe"></i>
-						<span class="h3">20</span>
-						<p>Worldwide Branch</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section> -->
 <section class="section service gray-bg">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-lg-7 text-center">
-				<div class="section-title">
-					<h2>Award winning patient care</h2>
-					<div class="divider mx-auto my-4"></div>
-					<p>Lets know moreel necessitatibus dolor asperiores illum possimus sint voluptates incidunt molestias nostrum laudantium. Maiores porro cumque quaerat.</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-lg-4 col-md-6 col-sm-6">
-				<div class="service-item mb-4">
-					<div class="icon d-flex align-items-center">
-						<i class="icofont-laboratory text-lg"></i>
-						<h4 class="mt-3 mb-3">Laboratory services</h4>
-					</div>
-
-					<div class="content">
-						<p class="mb-4">Saepe nulla praesentium eaque omnis perferendis a doloremque.</p>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-4 col-md-6 col-sm-6">
-				<div class="service-item mb-4">
-					<div class="icon d-flex align-items-center">
-						<i class="icofont-heart-beat-alt text-lg"></i>
-						<h4 class="mt-3 mb-3">Heart Disease</h4>
-					</div>
-					<div class="content">
-						<p class="mb-4">Saepe nulla praesentium eaque omnis perferendis a doloremque.</p>
-					</div>
-				</div>
-			</div>
-			
-			<div class="col-lg-4 col-md-6 col-sm-6">
-				<div class="service-item mb-4">
-					<div class="icon d-flex align-items-center">
-						<i class="icofont-tooth text-lg"></i>
-						<h4 class="mt-3 mb-3">Dental Care</h4>
-					</div>
-					<div class="content">
-						<p class="mb-4">Saepe nulla praesentium eaque omnis perferendis a doloremque.</p>
-					</div>
-				</div>
-			</div>
-
-
-			<div class="col-lg-4 col-md-6 col-sm-6">
-				<div class="service-item mb-4">
-					<div class="icon d-flex align-items-center">
-						<i class="icofont-crutch text-lg"></i>
-						<h4 class="mt-3 mb-3">Body Surgery</h4>
-					</div>
-
-					<div class="content">
-						<p class="mb-4">Saepe nulla praesentium eaque omnis perferendis a doloremque.</p>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-4 col-md-6 col-sm-6">
-				<div class="service-item mb-4">
-					<div class="icon d-flex align-items-center">
-						<i class="icofont-brain-alt text-lg"></i>
-						<h4 class="mt-3 mb-3">Neurology Sargery</h4>
-					</div>
-					<div class="content">
-						<p class="mb-4">Saepe nulla praesentium eaque omnis perferendis a doloremque.</p>
-					</div>
-				</div>
-			</div>
-			
-			<div class="col-lg-4 col-md-6 col-sm-6">
-				<div class="service-item mb-4">
-					<div class="icon d-flex align-items-center">
-						<i class="icofont-dna-alt-1 text-lg"></i>
-						<h4 class="mt-3 mb-3">Gynecology</h4>
-					</div>
-					<div class="content">
-						<p class="mb-4">Saepe nulla praesentium eaque omnis perferendis a doloremque.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<!-- <section class="section appoinment">
-	<div class="container">
-		<div class="row align-items-center">
-			<div class="col-lg-6 ">
-				<div class="appoinment-content">
-					<img src="images/about/img-3.jpg" alt="" class="img-fluid">
-					<div class="emergency">
-						<h2 class="text-lg"><i class="icofont-phone-circle text-lg"></i>+23 345 67980</h2>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-6 col-md-10 ">
-				<div class="appoinment-wrap mt-5 mt-lg-0">
-					<h2 class="mb-2 title-color">Book appoinment</h2>
-					<p class="mb-4">Mollitia dicta commodi est recusandae iste, natus eum asperiores corrupti qui velit . Iste dolorum atque similique praesentium soluta.</p>
-					     <form id="#" class="appoinment-form" method="post" action="#">
-                    <div class="row">
-                         <div class="col-lg-6">
-                            <div class="form-group">
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                  <option>Choose Department</option>
-                                  <option>Software Design</option>
-                                  <option>Development cycle</option>
-                                  <option>Software Development</option>
-                                  <option>Maintenance</option>
-                                  <option>Process Query</option>
-                                  <option>Cost and Duration</option>
-                                  <option>Modal Delivery</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <select class="form-control" id="exampleFormControlSelect2">
-                                  <option>Select Doctors</option>
-                                  <option>Software Design</option>
-                                  <option>Development cycle</option>
-                                  <option>Software Development</option>
-                                  <option>Maintenance</option>
-                                  <option>Process Query</option>
-                                  <option>Cost and Duration</option>
-                                  <option>Modal Delivery</option>
-                                </select>
-                            </div>
-                        </div>
-
-                         <div class="col-lg-6">
-                            <div class="form-group">
-                                <input name="date" id="date" type="text" class="form-control" placeholder="dd/mm/yyyy">
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <input name="time" id="time" type="text" class="form-control" placeholder="Time">
-                            </div>
-                        </div>
-                         <div class="col-lg-6">
-                            <div class="form-group">
-                                <input name="name" id="name" type="text" class="form-control" placeholder="Full Name">
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <input name="phone" id="phone" type="Number" class="form-control" placeholder="Phone Number">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group-2 mb-4">
-                        <textarea name="message" id="message" class="form-control" rows="6" placeholder="Your Message"></textarea>
-                    </div>
-
-                    <a class="btn btn-main btn-round-full" href="appoinment.php" >Make Appoinment <i class="icofont-simple-right ml-2  "></i></a>
-					
-                </form>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 text-center">
+                <div class="section-title">
+                    <h2>Award-Winning Patient Care</h2>
+                    <div class="divider mx-auto my-4"></div>
+                    <p>Discover our exceptional healthcare services, providing the best medical solutions with expert professionals.</p>
+                </div>
             </div>
-			</div>
-		</div>
-	</div>
-</section> -->
-<section class="section testimonial-2 gray-bg">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-lg-7">
-				<div class="section-title text-center">
-					<h2>We served over 5000+ Patients</h2>
-					<div class="divider mx-auto my-4"></div>
-					<p>Lets know moreel necessitatibus dolor asperiores illum possimus sint voluptates incidunt molestias nostrum laudantium. Maiores porro cumque quaerat.</p>
-				</div>
-			</div>
-		</div>
-	</div>
+        </div>
 
-	<div class="container">
-		<div class="row align-items-center">
-			<div class="col-lg-12 testimonial-wrap-2">
-				<div class="testimonial-block style-2  gray-bg">
-					<i class="icofont-quote-right"></i>
+        <div class="row">
+            <!-- Service Cards -->
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="service-item">
+                    <div class="icon">
+                        <i class="icofont-laboratory"></i>
+                    </div>
+                    <h4>Laboratory Services</h4>
+                    <p>Advanced lab tests with accurate results.</p>
+                </div>
+            </div>
 
-					<div class="testimonial-thumb">
-						<img src="images/team/test-thumb1.jpg" alt="" class="img-fluid">
-					</div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="service-item">
+                    <div class="icon">
+                        <i class="icofont-heart-beat-alt"></i>
+                    </div>
+                    <h4>Heart Disease</h4>
+                    <p>Comprehensive heart care and treatment.</p>
+                </div>
+            </div>
 
-					<div class="client-info ">
-						<h4>Amazing service!</h4>
-						<span>John Partho</span>
-						<p>
-							They provide great service facilty consectetur adipisicing elit. Itaque rem, praesentium, iure, ipsum magnam deleniti a vel eos adipisci suscipit fugit placeat.
-						</p>
-					</div>
-				</div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="service-item">
+                    <div class="icon">
+                        <i class="icofont-tooth"></i>
+                    </div>
+                    <h4>Dental Care</h4>
+                    <p>Expert dental services for a healthy smile.</p>
+                </div>
+            </div>
 
-				<div class="testimonial-block style-2  gray-bg">
-					<div class="testimonial-thumb">
-						<img src="images/team/test-thumb2.jpg" alt="" class="img-fluid">
-					</div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="service-item">
+                    <div class="icon">
+                        <i class="icofont-crutch"></i>
+                    </div>
+                    <h4>Body Surgery</h4>
+                    <p>Advanced surgical procedures with expert surgeons.</p>
+                </div>
+            </div>
 
-					<div class="client-info">
-						<h4>Expert doctors!</h4>
-						<span>Mullar Sarth</span>
-						<p>
-							They provide great service facilty consectetur adipisicing elit. Itaque rem, praesentium, iure, ipsum magnam deleniti a vel eos adipisci suscipit fugit placeat.
-						</p>
-					</div>
-					
-					<i class="icofont-quote-right"></i>
-				</div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="service-item">
+                    <div class="icon">
+                        <i class="icofont-brain-alt"></i>
+                    </div>
+                    <h4>Neurology Surgery</h4>
+                    <p>Innovative solutions for brain and nervous system disorders.</p>
+                </div>
+            </div>
 
-				<div class="testimonial-block style-2  gray-bg">
-					<div class="testimonial-thumb">
-						<img src="images/team/test-thumb3.jpg" alt="" class="img-fluid">
-					</div>
-
-					<div class="client-info">
-						<h4>Good Support!</h4>
-						<span>Kolis Mullar</span>
-						<p>
-							They provide great service facilty consectetur adipisicing elit. Itaque rem, praesentium, iure, ipsum magnam deleniti a vel eos adipisci suscipit fugit placeat.
-						</p>
-					</div>
-					
-					<i class="icofont-quote-right"></i>
-				</div>
-
-				<div class="testimonial-block style-2  gray-bg">
-					<div class="testimonial-thumb">
-						<img src="images/team/test-thumb4.jpg" alt="" class="img-fluid">
-					</div>
-
-					<div class="client-info">
-						<h4>Nice Environment!</h4>
-						<span>Partho Sarothi</span>
-						<p class="mt-4">
-							They provide great service facilty consectetur adipisicing elit. Itaque rem, praesentium, iure, ipsum magnam deleniti a vel eos adipisci suscipit fugit placeat.
-						</p>
-					</div>
-					<i class="icofont-quote-right"></i>
-				</div>
-
-				<div class="testimonial-block style-2  gray-bg">
-					<div class="testimonial-thumb">
-						<img src="images/team/test-thumb1.jpg" alt="" class="img-fluid">
-					</div>
-
-					<div class="client-info">
-						<h4>Modern Service!</h4>
-						<span>Kolis Mullar</span>
-						<p>
-							They provide great service facilty consectetur adipisicing elit. Itaque rem, praesentium, iure, ipsum magnam deleniti a vel eos adipisci suscipit fugit placeat.
-						</p>
-					</div>
-					<i class="icofont-quote-right"></i>
-				</div>
-			</div>
-		</div>
-	</div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="service-item">
+                    <div class="icon">
+                        <i class="icofont-dna-alt-1"></i>
+                    </div>
+                    <h4>Gynecology</h4>
+                    <p>Specialized women’s healthcare services.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
-<!-- <section class="section clients">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-lg-7">
-				<div class="section-title text-center">
-					<h2>Partners who support us</h2>
-					<div class="divider mx-auto my-4"></div>
-					<p>Lets know moreel necessitatibus dolor asperiores illum possimus sint voluptates incidunt molestias nostrum laudantium. Maiores porro cumque quaerat.</p>
-				</div>
-			</div>
-		</div>
-	</div>
 
-	<div class="container">
-		<div class="row clients-logo">
-			<div class="col-lg-2">
-				<div class="client-thumb">
-					<img src="images/about/1.png" alt="" class="img-fluid">
-				</div>
-			</div>
-			<div class="col-lg-2">
-				<div class="client-thumb">
-					<img src="images/about/2.png" alt="" class="img-fluid">
-				</div>
-			</div>
-			<div class="col-lg-2">
-				<div class="client-thumb">
-					<img src="images/about/3.png" alt="" class="img-fluid">
-				</div>
-			</div>
-			<div class="col-lg-2">
-				<div class="client-thumb">
-					<img src="images/about/4.png" alt="" class="img-fluid">
-				</div>
-			</div>
-			<div class="col-lg-2">
-				<div class="client-thumb">
-					<img src="images/about/5.png" alt="" class="img-fluid">
-				</div>
-			</div>
-			<div class="col-lg-2">
-				<div class="client-thumb">
-					<img src="images/about/6.png" alt="" class="img-fluid">
-				</div>
-			</div>
-			<div class="col-lg-2">
-				<div class="client-thumb">
-					<img src="images/about/3.png" alt="" class="img-fluid">
-				</div>
-			</div>
-			<div class="col-lg-2">
-				<div class="client-thumb">
-					<img src="images/about/4.png" alt="" class="img-fluid">
-				</div>
-			</div>
-			<div class="col-lg-2">
-				<div class="client-thumb">
-					<img src="images/about/5.png" alt="" class="img-fluid">
-				</div>
-			</div>
-			<div class="col-lg-2">
-				<div class="client-thumb">
-					<img src="images/about/6.png" alt="" class="img-fluid">
-				</div>
-			</div>
-		</div>
-	</div>
-</section> -->
+<
 <?php include 'footer.php'; ?>
 <script>
-var swiper = new Swiper(".swiper-container", {
-    slidesPerView: 5,  // Show 5 products at a time
-    spaceBetween: 10,  // Reduce space between products
-    loop: true,  // Enable infinite scrolling
-    navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-    },
-    pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-    },
-    breakpoints: {
-        1024: { slidesPerView: 5 }, // Desktop: Show 5
-        768: { slidesPerView: 3 }, // Tablet: Show 3
-        480: { slidesPerView: 2 }, // Mobile: Show 2
-        320: { slidesPerView: 1 }, // Smallest screens: Show 1
-    }
-});
+  var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 3,
+        spaceBetween: 15,
+        loop: true,
+        autoplay: {
+            delay: 2500,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        breakpoints: {
+            768: { slidesPerView: 2 },
+            480: { slidesPerView: 1 }
+        }
+    });
 </script>
  
+<style>
+   /* ============================ */
+/* 🎨 BUTTON STYLES */
+/* ============================ */
+
+/* Soft pastel colors for buttons */
+.btn-primary { background-color: #5A9EF0; border: none; }
+.btn-danger { background-color: #FF6B6B; border: none; }
+.btn-success { background-color: #7AC74F; border: none; }
+.btn-warning { background-color: #FFC107; border: none; }
+
+/* Button hover effect */
+.btn {
+    transition: opacity 0.3s ease-in-out;
+}
+.btn:hover {
+    opacity: 0.85;
+}
+
+/* ============================ */
+/* 🌟 FEATURE CARDS */
+/* ============================ */
+
+.feature-card {
+    transition: all 0.3s ease-in-out;
+}
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================ */
+/* 🌊 ANIMATIONS */
+/* ============================ */
+
+/* Floating animation */
+@keyframes floatAnimation {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+.floating-text {
+    animation: floatAnimation 3s ease-in-out infinite;
+}
+
+/* Fade-in animation */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 1.5s ease-out forwards;
+}
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================ */
+/* 🏥 SERVICE ITEMS */
+/* ============================ */
+
+.service-item {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 30px;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.service-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+.icon i {
+    font-size: 50px;
+    color: #00bcd4; /* Light blue healthcare theme */
+}
+h4 {
+    font-weight: bold;
+    color: #333;
+    margin-top: 15px;
+}
+.content p {
+    font-size: 14px;
+    color: #666;
+    margin-top: 5px;
+}
+.gray-bg {
+    background: #f8f9fa;
+    padding: 60px 0;
+}
+
+/* ============================ */
+/* 🛍️ PRODUCT BOX STYLES */
+/* ============================ */
+
+.products-container {
+    text-align: center;
+    margin: 20px auto;
+    max-width: 900px; /* Medium-size box */
+}
+.products-box {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: auto;
+}
+
+/* ============================ */
+/* 🎠 SWIPER CAROUSEL */
+/* ============================ */
+
+.swiper {
+    padding: 20px 0;
+}
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+}
+
+/* ============================ */
+/* 🏷️ PRODUCT CARD */
+/* ============================ */
+
+.product {
+    width: 200px;
+    padding: 15px;
+    background: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s;
+}
+.product:hover {
+    transform: translateY(-5px);
+}
+.product img {
+    height: 90px;
+    width: 90px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+.product h4 {
+    font-size: 16px;
+    margin-top: 10px;
+}
+.product p {
+    font-size: 14px;
+    color: #666;
+}
+.product .price {
+    font-weight: bold;
+    color: #00897B;
+}
+
+/* ============================ */
+/* 🛒 BUY BUTTON */
+/* ============================ */
+
+.btn {
+    background: #00897B;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+    transition: background 0.3s;
+}
+.btn:hover {
+    background: #00796B;
+}
+
+</style>
   
    

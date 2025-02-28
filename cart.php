@@ -66,7 +66,7 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
 </head>
 <body>
 
-<div class="container py-4">
+<div class="container py-4" style="margin-top: 50;">
     <div class="cart-container">
         <h2 class="cart-header">Your Shopping Cart</h2>
 
