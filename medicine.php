@@ -104,7 +104,8 @@ if ($search) {
                             </button>
 
                             <!-- Buy Now Button -->
-                            <a href="buy.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-primary">Buy Now</a>
+                        
+                            <a href="product_buy.php?id=<?php echo $row['id']; ?>" class="btn  btn-sm btn-primary">Buy Now</a>
                         </div>
                     </div>
                 </div>

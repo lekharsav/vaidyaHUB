@@ -1,238 +1,186 @@
-<?php 
-include 'connect.php'; // Include database connection
-include "navbar.php";?>
-	
-<section class="page-title bg-1">
-  <div class="overlay"></div>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="block text-center">
-          <span class="text-white">Book your Seat</span>
-          <h1 class="text-capitalize mb-5 text-lg">Appoinment</h1>
+<?php
+session_start();
+include 'connect.php'; // Database connection
 
-          <!-- <ul class="list-inline breadcumb-nav">
-            <li class="list-inline-item"><a href="index.php" class="text-white">Home</a></li>
-            <li class="list-inline-item"><span class="text-white">/</span></li>
-            <li class="list-inline-item"><a href="#" class="text-white-50">Book your Seat</a></li>
-          </ul> -->
+// Check if user is logged in
+if (!isset($_SESSION['uid'])) {
+    header("Location: login.php"); // Redirect to login if not logged in
+    exit();
+}
+
+$u_id =  $_SESSION['uid'] ;// Logged-in user ID
+
+// Fetch treatments
+$treatmentQuery = "SELECT * FROM treatments";
+$treatmentResult = mysqli_query($con, $treatmentQuery);
+
+// Fetch appointment history for the logged-in user
+$appointmentQuery = "SELECT a.*, u.u_name AS doctor_name, t.treatment_name 
+                     FROM appointments a
+                     JOIN users u ON a.d_id = u.u_id
+                     JOIN treatments t ON a.treatment_id = t.treatment_id
+                     WHERE a.p_id = $u_id
+                     ORDER BY a.appointment_date DESC";
+$appointmentResult = mysqli_query($con, $appointmentQuery);
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .history-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100%;
+            background: white;
+            box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease;
+            padding: 20px;
+            z-index: 1000;
+        }
+        .history-sidebar.open {
+            right: 0;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+        .overlay.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Appointment Booking Form -->
+        <div class="form-container">
+            <h2 class="text-center mb-4">Book an Appointment</h2>
+            <form action="book_appointment.php" method="POST">
+                <div class="mb-3">
+                    <label for="treatment" class="form-label">Select Treatment</label>
+                    <select class="form-select" id="treatment" name="treatment_id" required>
+                        <option value="">Choose a treatment</option>
+                        <?php while ($treatment = mysqli_fetch_assoc($treatmentResult)) { ?>
+                            <option value="<?php echo $treatment['treatment_id']; ?>">
+                                <?php echo $treatment['treatment_name']; ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="doctor" class="form-label">Select Doctor</label>
+                    <select class="form-select" id="doctor" name="d_id" required>
+                        <option value="">Choose a doctor</option>
+                        <!-- Doctors will be dynamically populated using JavaScript -->
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="date" class="form-label">Appointment Date</label>
+                    <input type="date" class="form-control" id="date" name="appointment_date" required>
+                </div>
+                <div class="mb-3">
+                    <label for="time" class="form-label">Appointment Time</label>
+                    <input type="time" class="form-control" id="time" name="appointment_time" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Book Appointment</button>
+            </form>
         </div>
-      </div>
+
+        <!-- Appointment History Button -->
+        <button class="btn btn-secondary mt-3 w-100" onclick="toggleHistorySidebar()">
+            View Appointment History
+        </button>
     </div>
-  </div>
-</section>
 
-<section class="appoinment section">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-4">
-          <div class="mt-3">
-            <div class="feature-icon mb-3">
-              <i class="icofont-support text-lg"></i>
-            </div>
-             <span class="h3">Call for an Emergency Service!</span>
-              <h2 class="text-color mt-3">+918348416396 </h2>
-          </div>
-      </div>
-
-      <div class="col-lg-8">
-           <div class="appoinment-wrap mt-5 mt-lg-0 pl-lg-5">
-            <h2 class="mb-2 title-color">Book an appoinment</h2>
-            <p class="mb-4">Mollitia dicta commodi est recusandae iste, natus eum asperiores corrupti qui velit . Iste dolorum atque similique praesentium soluta.</p>
-               <form id="#" class="appoinment-form" method="post" action="#">
-                    <div class="row">
-                         <div class="col-lg-6">
-                            <div class="form-group">
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                  <option>select your enqueies</option>
-                                  <option>booking</option>
-                                  <option>Development cycle</option>
-                                  <option>Software Development</option>
-                                  <option>Maintenance</option>
-                                  <option>Process Query</option>
-                                  <option>Cost and Duration</option>
-                                  <option>Modal Delivery</option>
-                                </select>
-                          </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <select class="form-control" id="exampleFormControlSelect2">
-                                  <option>Select Doctors</option>
-                                  <option>Software Design</option>
-                                  <option>Development cycle</option>
-                                  <option>Software Development</option>
-                                  <option>Maintenance</option>
-                                  <option>Process Query</option>
-                                  <option>Cost and Duration</option>
-                                  <option>Modal Delivery</option>
-                                </select>
-                            </div>
-                        </div>
-
-                         <div class="col-lg-6">
-                            <div class="form-group">
-                                <input name="date" id="date" type="text" class="form-control" placeholder="dd/mm/yyyy">
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <input name="time" id="time" type="text" class="form-control" placeholder="Time">
-                            </div>
-                        </div>
-                         <div class="col-lg-6">
-                            <div class="form-group">
-                                <input name="name" id="name" type="text" class="form-control" placeholder="Full Name">
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <input name="phone" id="phone" type="Number" class="form-control" placeholder="Phone Number">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group-2 mb-4">
-                        <textarea name="message" id="message" class="form-control" rows="6" placeholder="Your Message"></textarea>
-                    </div>
-
-                    <a class="btn btn-main btn-round-full" href="confirmation.php">Make Appoinment<i class="icofont-simple-right ml-2"></i></a>
-                </form>
-            </div>
-        </div>
-      </div>
+    <!-- Appointment History Sidebar -->
+    <div class="history-sidebar" id="historySidebar">
+        <h3>Appointment History</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Doctor</th>
+                    <th>Treatment</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($appointment = mysqli_fetch_assoc($appointmentResult)) { ?>
+                    <tr>
+                        <td><?php echo $appointment['doctor_name']; ?></td>
+                        <td><?php echo $appointment['treatment_name']; ?></td>
+                        <td><?php echo $appointment['appointment_date']; ?></td>
+                        <td><?php echo $appointment['appointment_time']; ?></td>
+                        <td><?php echo $appointment['status']; ?></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
     </div>
-  </div>
-</section>
 
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="toggleHistorySidebar()"></div>
 
-<!-- footer Start -->
-<footer class="footer section gray-bg">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-4 mr-auto col-sm-6">
-				<div class="widget mb-5 mb-lg-0">
-					<div class="logo mb-4">
-						<img src="images/logo.png" alt="" class="img-fluid">
-					</div>
-					<p>Tempora dolorem voluptatum nam vero assumenda voluptate, facilis ad eos obcaecati tenetur veritatis eveniet distinctio possimus.</p>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        // Fetch doctors based on selected treatment
+        document.getElementById('treatment').addEventListener('change', function () {
+            const treatmentId = this.value;
+            const doctorSelect = document.getElementById('doctor');
+            doctorSelect.innerHTML = '<option value="">Choose a doctor</option>';
 
-					<ul class="list-inline footer-socials mt-4">
-						<li class="list-inline-item"><a href="https://www.facebook.com/themefisher"><i class="icofont-facebook"></i></a></li>
-						<li class="list-inline-item"><a href="https://twitter.com/themefisher"><i class="icofont-twitter"></i></a></li>
-						<li class="list-inline-item"><a href="https://www.pinterest.com/themefisher/"><i class="icofont-linkedin"></i></a></li>
-					</ul>
-				</div>
-			</div>
+            if (treatmentId) {
+                fetch(`fetch_doctors.php?treatment_id=${treatmentId}`)
+                    .then(response => response.json())
+                    .then(doctors => {
+                        doctors.forEach(doctor => {
+                            const option = document.createElement('option');
+                            option.value = doctor.u_id;
+                            option.textContent = doctor.u_name;
+                            doctorSelect.appendChild(option);
+                        });
+                    });
+            }
+        });
 
-			<div class="col-lg-2 col-md-6 col-sm-6">
-				<div class="widget mb-5 mb-lg-0">
-					<h4 class="text-capitalize mb-3">Department</h4>
-					<div class="divider mb-4"></div>
-
-					<ul class="list-unstyled footer-menu lh-35">
-						<li><a href="#">Surgery </a></li>
-						<li><a href="#">Wome's Health</a></li>
-						<li><a href="#">Radiology</a></li>
-						<li><a href="#">Cardioc</a></li>
-						<li><a href="#">Medicine</a></li>
-					</ul>
-				</div>
-			</div>
-
-			<div class="col-lg-2 col-md-6 col-sm-6">
-				<div class="widget mb-5 mb-lg-0">
-					<h4 class="text-capitalize mb-3">Support</h4>
-					<div class="divider mb-4"></div>
-
-					<ul class="list-unstyled footer-menu lh-35">
-						<li><a href="#">Terms & Conditions</a></li>
-						<li><a href="#">Privacy Policy</a></li>
-						<li><a href="#">Company Support </a></li>
-						<li><a href="#">FAQuestions</a></li>
-						<li><a href="#">Company Licence</a></li>
-					</ul>
-				</div>
-			</div>
-
-			<div class="col-lg-3 col-md-6 col-sm-6">
-				<div class="widget widget-contact mb-5 mb-lg-0">
-					<h4 class="text-capitalize mb-3">Get in Touch</h4>
-					<div class="divider mb-4"></div>
-
-					<div class="footer-contact-block mb-4">
-						<div class="icon d-flex align-items-center">
-							<i class="icofont-email mr-3"></i>
-							<span class="h6 mb-0">Support Available for 24/7</span>
-						</div>
-						<h4 class="mt-2"><a href="tel:+23-345-67890">Support@email.com</a></h4>
-					</div>
-
-					<div class="footer-contact-block">
-						<div class="icon d-flex align-items-center">
-							<i class="icofont-support mr-3"></i>
-							<span class="h6 mb-0">Mon to Fri : 08:30 - 18:00</span>
-						</div>
-						<h4 class="mt-2"><a href="tel:+23-345-67890">+23-456-6588</a></h4>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		<div class="footer-btm py-4 mt-5">
-			<div class="row align-items-center justify-content-between">
-				<div class="col-lg-6">
-					<div class="copyright">
-						&copy; Copyright Reserved to <span class="text-color">Novena</span> by <a href="https://themefisher.com/" target="_blank">Themefisher</a>
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<div class="subscribe-form text-lg-right mt-5 mt-lg-0">
-						<form action="#" class="subscribe">
-							<input type="text" class="form-control" placeholder="Your Email address">
-							<a href="#" class="btn btn-main-2 btn-round-full">Subscribe</a>
-						</form>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-lg-4">
-					<a class="backtop js-scroll-trigger" href="#top">
-						<i class="icofont-long-arrow-up"></i>
-					</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</footer>
-   
-
-    <!-- 
-    Essential Scripts
-    =====================================-->
-
-    
-    <!-- Main jQuery -->
-    <script src="plugins/jquery/jquery.js"></script>
-    <!-- Bootstrap 4.3.2 -->
-    <script src="plugins/bootstrap/js/popper.js"></script>
-    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
-    <script src="plugins/counterup/jquery.easing.js"></script>
-    <!-- Slick Slider -->
-    <script src="plugins/slick-carousel/slick/slick.min.js"></script>
-    <!-- Counterup -->
-    <script src="plugins/counterup/jquery.waypoints.min.js"></script>
-    
-    <script src="plugins/shuffle/shuffle.min.js"></script>
-    <script src="plugins/counterup/jquery.counterup.min.js"></script>
-    <!-- Google Map -->
-    <script src="plugins/google-map/map.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkeLMlsiwzp6b3Gnaxd86lvakimwGA6UA&callback=initMap"></script>    
-    
-    <script src="js/script.js"></script>
-    <script src="js/contact.js"></script>
-
-  </body>
-  </php>
+        // Toggle history sidebar
+        function toggleHistorySidebar() {
+            const sidebar = document.getElementById('historySidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
