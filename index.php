@@ -81,28 +81,25 @@ $res=mysqli_query($con,$sql);
 
 
 <section class="products" id="products">
-    <h3 class="text-center">Featured Products</h3>
-
-    <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
-            <?php while($row = mysqli_fetch_assoc($res)) { ?>
-                <div class="swiper-slide">
-                    <div class="product">
-                        <img src="product/<?php echo $row['image']; ?>" alt="Medicine Image">
-                        <h4><?php echo $row['name']; ?></h4>
-                        <p><?php echo $row['description']; ?></p>
-                        <p class="price">Rs <?php echo number_format($row['price'], 2); ?></p>
-                        <a href="buy.php?id=<?php echo $row['id']; ?>" class="btn">Buy Now</a>
+        <h3 class="text-center">Featured Products</h3>
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <?php while($row = mysqli_fetch_assoc($res)) { ?>
+                    <div class="swiper-slide">
+                        <div class="product">
+                            <img src="product/<?php echo $row['image']; ?>" alt="Medicine Image">
+                            <h4><?php echo $row['name']; ?></h4>
+                            <p><?php echo $row['description']; ?></p>
+                            <p class="price">Rs <?php echo number_format($row['price'], 2); ?></p>
+                            <a href="product_buy.php?id=<?php echo $row['id']; ?>" class="btn">Buy Now</a>
+                        </div>
                     </div>
-                </div>
-            <?php } ?>
+                <?php } ?>
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-pagination"></div>
         </div>
-
-        <!-- Swiper Navigation Buttons -->
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-pagination"></div>
-    </div>
 </section>
 
 <section class="section service gray-bg">
@@ -182,31 +179,84 @@ $res=mysqli_query($con,$sql);
     </div>
 </section>
 
-<
-<?php include 'footer.php'; ?>
-<script>
-  var swiper = new Swiper(".mySwiper", {
-        slidesPerView: 3,
-        spaceBetween: 15,
-        loop: true,
-        autoplay: {
-            delay: 2500,
-            disableOnInteraction: false,
-        },
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        breakpoints: {
-            768: { slidesPerView: 2 },
-            480: { slidesPerView: 1 }
+<style>
+
+     
+        .products {
+            width: 90%;
+            margin: auto;
+            text-align: center;
+            padding: 50px 0;
         }
-    });
-</script>
+        .swiper {
+            width: 100%;
+            padding: 20px 0;
+        }
+        .swiper-slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .product {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 250px;
+        }
+        .product img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .product h4 {
+            margin: 15px 0 10px;
+            font-size: 18px;
+        }
+        .product p {
+            font-size: 14px;
+            color: #555;
+        }
+        .price {
+            font-weight: bold;
+            color: #e91e63;
+            margin: 10px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #218838;
+        }
+
+</style>
+<?php include 'footer.php'; ?>
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            loop: true,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            breakpoints: {
+                768: { slidesPerView: 2, spaceBetween: 20 },
+                1024: { slidesPerView: 4, spaceBetween: 30 }
+            }
+        });
+    </script>
  
 <style>
    /* ============================ */
