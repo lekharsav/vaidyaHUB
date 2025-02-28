@@ -60,7 +60,7 @@ session_start();
                 <ul class="navbar-nav mx-auto fw-bold">
                     <li class="nav-item"><a class="nav-link text-dark" href="index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link text-dark" href="about.php">About</a></li>
-                    <li class="nav-item"><a class="nav-link text-dark" href="service.php">Services</a></li>
+                    <li class="nav-item"><a class="nav-link text-dark" href="order_details.php">Order</a></li>
 
 
                     <!-- Doctor Dropdown -->
