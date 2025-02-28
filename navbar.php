@@ -38,7 +38,7 @@
     <!-- Top Bar -->
    
     <!-- Fixed Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-lg fixed-top py-3">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-lg fixed-top py-1">
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand d-flex align-items-center" href="index.php">
@@ -57,14 +57,6 @@
                     <li class="nav-item"><a class="nav-link text-dark" href="about.php">About</a></li>
                     <li class="nav-item"><a class="nav-link text-dark" href="service.php">Services</a></li>
 
-                    <!-- Department Dropdown -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">Department</a>
-                        <ul class="dropdown-menu border-0 shadow">
-                            <li><a class="dropdown-item" href="department.php">All Departments</a></li>
-                            <li><a class="dropdown-item" href="department-single.php">Single Department</a></li>
-                        </ul>
-                    </li>
 
                     <!-- Doctor Dropdown -->
                     <li class="nav-item dropdown">
@@ -76,17 +68,6 @@
                         </ul>
                     </li>
 
-                    <!-- Blog Dropdown -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">Blog</a>
-                        <ul class="dropdown-menu border-0 shadow">
-                            <li><a class="dropdown-item" href="blog-sidebar.php">Blog with Sidebar</a></li>
-                            <li><a class="dropdown-item" href="blog-single.php">Single Blog</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item"><a class="nav-link text-dark" href="contact.php">Contact</a></li>
-                </ul>
 
                 <!-- Right Side Buttons -->
                 <ul class="navbar-nav d-flex align-items-center">
