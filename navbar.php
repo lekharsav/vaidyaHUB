@@ -1,5 +1,26 @@
 <?php
+include('connect.php');
 session_start();
+
+if (isset($_SESSION['uid']) && $_SESSION['uid'] != null) {
+    $u_id = $_SESSION['uid']; // Get the logged-in user's ID
+
+    // Corrected SQL query using placeholder
+    $sql = "SELECT * FROM users WHERE u_id = ?";
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param("i", $u_id); // Correctly bind integer parameter
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+        $profile_pic = !empty($user['u_img']) ? '' . $user['u_img'] : 'images/profilepic/pic.jpg';
+    } else {
+        $profile_pic = 'images/profilepic/pic.jpg'; // Default image if user not found
+    }
+} else {
+    $profile_pic = 'images/profilepic/pic.jpg'; // Default for non-logged-in users
+}
 ?>
 
 
@@ -78,31 +99,40 @@ session_start();
                 <ul class="navbar-nav d-flex align-items-center">
                     <!-- Cart Button -->
                     <li class="nav-item me-3">
-                        <a href="cart.php" class="nav-link text-dark position-relative">
+                        <a href="cart.php" class="nav-link text-dark position-relative" style="margin-bottom: 15px;"> 
                             <i class="icofont-cart fs-4"></i>
                             <span class="badge bg-danger position-absolute top-0 start-100 translate-middle" id="cart-count">3</span>
                         </a>
                     </li>
 
                     <!-- Profile Button with Pop-out Menu -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link text-dark d-flex align-items-center dropdown-toggle" href="#" id="profileMenu" data-bs-toggle="dropdown">
-                            <i class="icofont-user-alt-5 fs-4 me-2"></i>
-                        </a>
-                        <ul class="dropdown-menu border-0 shadow p-3">
-    <?php if (isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN'] === 'yes') { ?>
-        <li><a class="dropdown-item" href="profile.php">My Account</a></li>
-        <li><a class="dropdown-item" href="add-account.php">Add Another Account</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item text-danger" href="logout.php">Logout</a></li>
-    <?php } else { ?>
-        <li><a class="dropdown-item" href="login.php">Login</a></li>
-    <?php } ?>
-</ul>
+                    
 
-                    </li>
+
+
                 </ul>
             </div>
+
+
+            <div class="nav-item dropdown" >
+    <a class="nav-link text-dark d-flex align-items-center dropdown-toggle" href="#" id="profileMenu" data-bs-toggle="dropdown" >
+        <?php if (isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN'] === 'yes') { ?>
+            <img src="<?php echo $profile_pic; ?>" alt="User" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+        <?php } else { ?>
+            <i class="icofont-user-alt-5 fs-4 me-2"></i>
+        <?php } ?>
+    </a>
+    <ul class="dropdown-menu border-0 shadow p-3">
+        <?php if (isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN'] === 'yes') { ?>
+            <li><a class="dropdown-item" href="profile.php">My Account</a></li>
+            <li><a class="dropdown-item" href="add-account.php">Add Another Account</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="logout.php">Logout</a></li>
+        <?php } else { ?>
+            <li><a class="dropdown-item" href="login.php">Login</a></li>
+        <?php } ?>
+    </ul>
+        </div>
         </div>
     </nav>
 </header>
