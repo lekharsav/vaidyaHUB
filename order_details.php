@@ -39,6 +39,7 @@ $result = mysqli_query($con, $sql);
     </tbody>
 </table>
 </div>
+<?php include "footer.php"?>
 <style>
     table {
     border-collapse: collapse;
