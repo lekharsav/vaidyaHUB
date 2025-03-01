@@ -1,5 +1,4 @@
 <?php
-session_start();
 include 'connect.php';
 include 'navbar.php';
 
@@ -26,25 +25,42 @@ $hasAddress = !empty($user['address']); // Check if the address is set
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buy Product</title>
+    <title>Buy Product - <?php echo $product['name']; ?></title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
     <style>
+        body {
+            background-color: #f8f9fa;
+        }
         .product-container {
             margin-top: 80px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .product-image {
             max-width: 100%;
             height: auto;
             border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .quantity-controls button {
             background: #007bff;
             color: white;
             border: none;
-            padding: 5px 10px;
+            padding: 5px 15px;
             cursor: pointer;
             border-radius: 5px;
+            font-size: 16px;
+        }
+        .quantity-controls input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 0 10px;
         }
         .modal-content {
             padding: 20px;
@@ -54,6 +70,30 @@ $hasAddress = !empty($user['address']); // Check if the address is set
             max-width: 100%;
             height: auto;
             margin-top: 15px;
+        }
+        .address-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        .btn-success:hover {
+            background-color: #218838;
         }
     </style>
 </head>
@@ -66,9 +106,9 @@ $hasAddress = !empty($user['address']); // Check if the address is set
             </div>
             <!-- Product Details -->
             <div class="col-md-6">
-                <h2><?php echo $product['name']; ?></h2>
-                <p><?php echo $product['description']; ?></p>
-                <p><strong>Price:</strong> Rs <?php echo number_format($product['price'], 2); ?></p>
+                <h2 class="mb-4"><?php echo $product['name']; ?></h2>
+                <p class="text-muted"><?php echo $product['description']; ?></p>
+                <p class="h4"><strong>Price:</strong> Rs <?php echo number_format($product['price'], 2); ?></p>
                 <form action="checkout.php" method="POST">
                     <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
                     <input type="hidden" id="price" value="<?php echo $product['price']; ?>">
@@ -80,21 +120,27 @@ $hasAddress = !empty($user['address']); // Check if the address is set
                     <input type="hidden" name="pin_no" value="<?php echo $user['pin_no']; ?>">
 
                     <!-- Quantity Controls -->
-                    <div class="mb-3">
+                    <div class="mb-4">
                         <label for="quantity" class="form-label"><strong>Quantity:</strong></label>
-                        <div class="quantity-controls">
+                        <div class="quantity-controls d-flex align-items-center">
                             <button type="button" onclick="decreaseQuantity()">-</button>
-                            <input type="number" id="quantity" name="quantity" value="1" min="1" readonly onchange="updateTotal()" style="width: 50px; text-align: center;">
+                            <input type="number" id="quantity" name="quantity" value="1" min="1" readonly onchange="updateTotal()">
                             <button type="button" onclick="increaseQuantity()">+</button>
                         </div>
                     </div>
-                    <p><strong>Total Price:</strong> <span id="total_price">Rs <?php echo number_format($product['price'], 2); ?></span></p>
+                    <p class="h5"><strong>Total Price:</strong> <span id="total_price">Rs <?php echo number_format($product['price'], 2); ?></span></p>
 
                     <!-- Payment Method Selection -->
-                    <h3>Select Payment Method:</h3>
-                    <div class="mb-3">
-                        <label><input type="radio" name="payment" value="cod" onclick="togglePayment('cod')"> Cash on Delivery</label>
-                        <label><input type="radio" name="payment" value="online" onclick="togglePayment('online')"> Online Payment</label>
+                    <h3 class="mt-4">Select Payment Method:</h3>
+                    <div class="mb-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payment" value="cod" onclick="togglePayment('cod')">
+                            <label class="form-check-label">Cash on Delivery</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payment" value="online" onclick="togglePayment('online')">
+                            <label class="form-check-label">Online Payment</label>
+                        </div>
                     </div>
 
                     <!-- Online Payment Options -->
@@ -106,7 +152,7 @@ $hasAddress = !empty($user['address']); // Check if the address is set
                     </div>
 
                     <!-- Delivery Address Section -->
-                    <h3>Delivery Address:</h3>
+                    <h3 class="mt-4">Delivery Address:</h3>
                     <div class="address-container">
                         <?php if ($hasAddress) { ?>
                             <div class="address-box">
@@ -122,7 +168,7 @@ $hasAddress = !empty($user['address']); // Check if the address is set
                     </div>
 
                     <!-- Submit Button -->
-                    <button type="submit" name="submit" class="btn btn-success mt-3">Proceed to Checkout</button>
+                    <button type="submit" name="submit" class="btn btn-success mt-4 w-100">Proceed to Checkout</button>
                 </form>
             </div>
         </div>
@@ -138,7 +184,7 @@ $hasAddress = !empty($user['address']); // Check if the address is set
                 </div>
                 <div class="modal-body">
                     <p>Scan the QR code below to pay via UPI:</p>
-                    <img src="path_to_upi_barcode.png" alt="UPI Barcode" class="upi-barcode">
+                    <img src="images/pay.jpg" alt="UPI Barcode" class="upi-barcode">
                     <p>Supported UPI IDs:</p>
                     <ul>
                         <li>example1@upi</li>

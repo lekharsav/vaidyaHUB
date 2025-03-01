@@ -4,7 +4,7 @@ include 'navbar.php';
 include 'connect.php'; // Database connection
 
 // Check if user is logged in
-if (!isset($_SESSION['uid'])) {
+if (!isset(  $_SESSION['uid'])) {
     header("Location: login.php"); // Redirect to login if not logged in
     exit();
 }

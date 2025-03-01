@@ -148,35 +148,6 @@ function updateGrandTotal() {
     $("#grand-total").text(grandTotal.toFixed(2));
 }
 
-// function removeFromCart(index) {
-//     $.ajax({
-//         url: "remove_from_cart.php",
-//         type: "POST",
-//         data: { index: index },
-//         dataType: "json", // Expect JSON response
-//         success: function (response) {
-//             if (response.status === "success") {
-//                 $("#cart-item-" + index).fadeOut(500, function () {
-//                     $(this).remove();
-//                     updateGrandTotal();
-
-//                     // Check if cart is empty
-//                     if ($(".total-price").length === 0) {
-//                         $(".cart-table").fadeOut();
-//                         $(".text-end").fadeOut();
-//                         $(".container").append('<p class="text-center text-muted">Your cart is empty.</p>');
-//                     }
-//                 });
-//             } else {
-//                 alert("Error: " + response.message);
-//             }
-//         },
-//         error: function (xhr, status, error) {
-//             console.error("AJAX Error:", status, error);
-//             alert("Unable to remove item from cart. Please try again.");
-//         }
-//     });
-// }
 function removeFromCart(index) {
     $.ajax({
         url: "remove_from_cart.php",
