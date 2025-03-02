@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $state = $_POST['state'];
     $landmark = $_POST['landmark'];
     $flat_house_no = $_POST['flat_house_no'];
-    $pin_no = $_POST['pin_no'];
+  
 
     if ($_FILES['u_img']['error'] == 0) {
         $target_dir = "images/profilepic/";
@@ -43,7 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $sql = "UPDATE users SET u_name = ?, email = ?, phone = ?, address = ?, state = ?, landmark = ?, flat_house_no = ?, u_img = ? WHERE u_id = ?";
     $stmt = $con->prepare($sql);
-    $stmt->bind_param("sssssssssi", $u_name, $email, $phone, $address, $state, $landmark, $flat_house_no, $profile_pic, $u_id);
+    $stmt->bind_param("ssssssssi", $u_name, $email, $phone, $address, $state, $landmark, $flat_house_no, $profile_pic, $u_id);
+
 
     if ($stmt->execute()) {
         $msg = "Profile updated successfully!";
@@ -122,10 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 .container {
     display: flex;
     width: 1200px;
-    background-color: #eaf2ed;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  
 }
 .btn {
             padding: 12px 24px;
