@@ -32,10 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $state = $_POST['state'];
     $landmark = $_POST['landmark'];
     $flat_house_no = $_POST['flat_house_no'];
-<<<<<<< HEAD
-=======
   
->>>>>>> d0d25a56af64af362205c8781c22d261d2d60181
 
     if ($_FILES['u_img']['error'] == 0) {
         $target_dir = "images/profilepic/";
