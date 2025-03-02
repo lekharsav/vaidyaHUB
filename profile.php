@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
-    <div class="container">
+    <div class="container" style="margin-top:15px;">
         <aside class="sidebar">
             <h2>LEARNING ROBO</h2>
             <ul>
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </ul>
         </aside>
         
-        <main class="profile-settings">
+        <main class="profile-settings" style="margin-left: 300px;">
         <form method="POST" enctype="multipart/form-data">
             <!-- <h2>Profile Settings</h2> -->
             <div style="text-align: center;">
@@ -151,6 +151,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
 .sidebar {
     width: 250px;
+    left: 0;
+   position: absolute;
+   height: 100vh;
     background-color: #83a27d;
     padding: 20px;
     color: white;
