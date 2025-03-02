@@ -64,7 +64,7 @@ if (isset($_SESSION['uid']) && $_SESSION['uid'] != null) {
     <!-- Top Bar -->
    
     <!-- Fixed Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light   fixed-top py-1" style="background-color:#d3d8d8d9;">
+    <nav class="navbar navbar-expand-lg navbar-light   fixed-top py-0" style="background-color:#8bc0e3d9;">
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand d-flex align-items-center" href="index.php">

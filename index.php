@@ -7,7 +7,7 @@ $res=mysqli_query($con,$sql);
 
 ?>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<section class="banner">
+<section class="banner" style="margin-top: 15px;">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-12 col-xl-7">

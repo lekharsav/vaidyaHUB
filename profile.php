@@ -1,6 +1,5 @@
 <?php
 include 'navbar.php';
-
 // Redirect to login if user is not logged in
 if (!isset($_SESSION['USER_LOGIN']) || $_SESSION['USER_LOGIN'] != 'yes') {
     header("Location: login.php");
@@ -117,7 +116,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </main>
         
     </div>
-
 <style>
 
 .container {
