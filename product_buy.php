@@ -110,14 +110,16 @@ $hasAddress = !empty($user['address']); // Check if the address is set
                 <p class="text-muted"><?php echo $product['description']; ?></p>
                 <p class="h4"><strong>Price:</strong> Rs <?php echo number_format($product['price'], 2); ?></p>
                 <form action="checkout.php" method="POST">
-                    <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
-                    <input type="hidden" id="price" value="<?php echo $product['price']; ?>">
-                    <input type="hidden" name="total_price" id="hidden_total_price">
-                    <input type="hidden" name="flat_house_no" value="<?php echo $user['flat_house_no']; ?>">
-                    <input type="hidden" name="landmark" value="<?php echo $user['landmark']; ?>">
-                    <input type="hidden" name="address" value="<?php echo $user['address']; ?>">
-                    <input type="hidden" name="state" value="<?php echo $user['state']; ?>">
-                    <input type="hidden" name="pin_no" value="<?php echo $user['pin_no']; ?>">
+                <input type="hidden" name="id" value="<?php echo htmlspecialchars($product['id']); ?>">
+    
+                <input type="hidden" name="total_price" id="hidden_total_price" value="<?php echo $product['price']; ?>">
+
+
+    <input type="hidden" name="flat_house_no" value="<?php echo htmlspecialchars($user['flat_house_no']); ?>">
+    <input type="hidden" name="landmark" value="<?php echo htmlspecialchars($user['landmark']); ?>">
+    <input type="hidden" name="address" value="<?php echo htmlspecialchars($user['address']); ?>">
+    <input type="hidden" name="state" value="<?php echo htmlspecialchars($user['state']); ?>">
+    <input type="hidden" name="pin_no" value="<?php echo htmlspecialchars($user['pin_no']); ?>">
 
                     <!-- Quantity Controls -->
                     <div class="mb-4">
@@ -240,6 +242,10 @@ $hasAddress = !empty($user['address']); // Check if the address is set
                                 <input type="text" class="form-control" id="flat_house_no" required>
                             </div>
                             <div class="mb-3">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="number" class="form-control" id="phone" required>
+                            </div>
+                            <div class="mb-3">
                                 <label for="landmark" class="form-label">Landmark</label>
                                 <input type="text" class="form-control" id="landmark" required>
                             </div>
@@ -251,6 +257,7 @@ $hasAddress = !empty($user['address']); // Check if the address is set
                                 <label for="state" class="form-label">State</label>
                                 <input type="text" class="form-control" id="state" required>
                             </div>
+                           
                             <div class="mb-3">
                                 <label for="pin_no" class="form-label">Pincode</label>
                                 <input type="text" class="form-control" id="pin_no" required>
@@ -265,14 +272,30 @@ $hasAddress = !empty($user['address']); // Check if the address is set
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
         function updateTotal() {
-            let price = parseFloat(document.getElementById("price").value);
-            let qty = parseInt(document.getElementById("quantity").value);
-            let total = price * qty;
-            document.getElementById("total_price").innerText = "Rs " + total.toFixed(2);
-            document.getElementById("hidden_total_price").value = total.toFixed(2);
-        }
+    let price = parseFloat(<?php echo $product['price']; ?>); // Get price from PHP
+    let qty = parseInt(document.getElementById("quantity").value) || 1;
+    let total = price * qty;
+
+    // Update displayed total price
+    document.getElementById("total_price").innerText = "Rs " + total.toFixed(2);
+
+    // Ensure the hidden input gets updated
+    document.getElementById("hidden_total_price").value = total.toFixed(2);
+}
+
+// Initialize the total price on page load
+window.onload = updateTotal;
+
+
+    // Attach event listener to quantity field to update total dynamically
+    document.getElementById("quantity").addEventListener("input", updateTotalPrice);
+
+    // Run the function once to initialize the total price on page load
+    window.onload = updateTotal;
+      
 
         function increaseQuantity() {
             let qtyInput = document.getElementById("quantity");
@@ -309,14 +332,29 @@ $hasAddress = !empty($user['address']); // Check if the address is set
             alert("Bank transfer details will be sent to your email.");
         }
 
-        document.getElementById("saveAddressBtn").addEventListener("click", function() {
-            let flat_house_no = document.getElementById("flat_house_no").value;
-            let landmark = document.getElementById("landmark").value;
-            let address = document.getElementById("address").value;
-            let state = document.getElementById("state").value;
-            let pin_no = document.getElementById("pin_no").value;
+    </script>
+</body>
+</html>
+<?php
+include 'footer.php';
+?>
+<script>
+function openModal(modalId) {
+    let modal = new bootstrap.Modal(document.getElementById(modalId));
+    modal.show();
+}</script>
+<script>
 
-            if (!flat_house_no || !landmark || !address || !state || !pin_no) {
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("saveAddressBtn").addEventListener("click", function() {
+            let flat_house_no = document.getElementById("flat_house_no").value.trim();
+            let landmark = document.getElementById("landmark").value.trim();
+            let phone = document.getElementById("phone").value.trim(); // Fix: Ensure phone is captured
+            let address = document.getElementById("address").value.trim();
+            let state = document.getElementById("state").value.trim();
+            let pin_no = document.getElementById("pin_no").value.trim();
+
+            if (!flat_house_no || !landmark || !address || !state || !pin_no || !phone) {
                 alert("Please fill in all required fields.");
                 return;
             }
@@ -326,23 +364,38 @@ $hasAddress = !empty($user['address']); // Check if the address is set
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
             xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    let response = xhr.responseText.trim();
-                    if (response === "success") {
-                        alert("Address saved successfully!");
-                        bootstrap.Modal.getInstance(document.getElementById('addressModal')).hide();
-                        location.reload();
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        let response = xhr.responseText.trim();
+                        if (response === "success") {
+                            alert("Address saved successfully!");
+                            
+                            // Properly close the Bootstrap modal
+                            let modalEl = document.getElementById('addressModal');
+                            let modalInstance = bootstrap.Modal.getInstance(modalEl);
+                            if (modalInstance) {
+                                modalInstance.hide();
+                            }
+
+                            // Reload the page after closing the modal
+                            setTimeout(() => {
+                                location.reload();
+                            }, 500);
+                        } else {
+                            alert("Error saving address. Please try again.");
+                        }
                     } else {
-                        alert("Error saving address. Please try again.");
+                        alert("Server error. Please check your connection.");
                     }
                 }
             };
 
-            xhr.send("flat_house_no=" + flat_house_no + "&landmark=" + landmark + "&address=" + address + "&state=" + state + "&pin_no=" + pin_no);
+            // ✅ Fix: Include phone number in the request
+            xhr.send(`flat_house_no=${encodeURIComponent(flat_house_no)}&landmark=${encodeURIComponent(landmark)}&phone=${encodeURIComponent(phone)}&address=${encodeURIComponent(address)}&state=${encodeURIComponent(state)}&pin_no=${encodeURIComponent(pin_no)}`);
         });
-    </script>
-</body>
-</html>
-<?php
-include 'footer.php';
-?>
+    });
+</script>
+
+   
+
+
