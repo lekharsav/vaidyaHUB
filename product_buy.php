@@ -1,29 +1,17 @@
 <?php
-include 'connect.php'; // Include your database connection file
-include 'navbar.php'; // Include your navbar file
+include 'connect.php';
+include 'navbar.php';
 
-// Check if the user is logged in
-if (!isset($_SESSION['uid'])) {
-    die("You must be logged in to access this page.");
-}
+$u_id = $_SESSION['uid']; // Assuming user is logged in
 
-$u_id = $_SESSION['uid']; // Get the logged-in user's ID
-
-// Check if the product ID is provided in the URL
 if (!isset($_GET['id'])) {
     die("Product not found.");
 }
 
-$id = intval($_GET['id']); // Sanitize the product ID
-
-// Fetch product details from the database
+$id = intval($_GET['id']);
 $query = "SELECT * FROM medicine WHERE id = $id";
 $result = mysqli_query($con, $query);
 $product = mysqli_fetch_assoc($result);
-
-if (!$product) {
-    die("Product not found.");
-}
 
 // Fetch user address details
 $userQuery = "SELECT address, state, landmark, flat_house_no, pin_no FROM users WHERE u_id = $u_id";
@@ -43,12 +31,11 @@ $hasAddress = !empty($user['address']); // Check if the address is set
     <!-- Custom CSS -->
     <style>
         body {
-            background-color: #26988c;
-            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
         }
         .product-container {
             margin-top: 80px;
-            padding: 30px;
+            padding: 20px;
             background: white;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -60,7 +47,7 @@ $hasAddress = !empty($user['address']); // Check if the address is set
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .quantity-controls button {
-            background: #26988c;
+            background: #007bff;
             color: white;
             border: none;
             padding: 5px 15px;
@@ -91,29 +78,22 @@ $hasAddress = !empty($user['address']); // Check if the address is set
             margin-bottom: 20px;
         }
         .btn-primary {
-            background-color: #26988c;
+            background-color: #007bff;
             border: none;
             padding: 10px 20px;
             border-radius: 5px;
         }
         .btn-primary:hover {
-            background-color: #26988c;
+            background-color: #0056b3;
         }
         .btn-success {
-            background-color: #26988c;
+            background-color: #28a745;
             border: none;
             padding: 10px 20px;
             border-radius: 5px;
         }
         .btn-success:hover {
             background-color: #218838;
-        }
-        .payment-options {
-            display: none;
-            margin-top: 20px;
-        }
-        .payment-options button {
-            margin: 5px;
         }
     </style>
 </head>
@@ -162,19 +142,6 @@ $hasAddress = !empty($user['address']); // Check if the address is set
                         </div>
                     </div>
 
-                    <!-- Online Payment Options -->
-                    <div id="onlinePaymentOptions" class="payment-options" style="color: #26988c;">
-                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#upiModal">
-                            UPI Payment
-                        </button>
-                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#bankTransferModal">
-                            Bank Transfer
-                        </button>
-                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#cardPaymentModal">
-                            Card Payment
-                        </button>
-                    </div>
-
                     <!-- Delivery Address Section -->
                     <h3 class="mt-4">Delivery Address:</h3>
                     <div class="address-container">
@@ -194,81 +161,6 @@ $hasAddress = !empty($user['address']); // Check if the address is set
                     <!-- Submit Button -->
                     <button type="submit" name="submit" class="btn btn-success mt-4 w-100">Proceed to Checkout</button>
                 </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- UPI Payment Modal -->
-    <div class="modal fade" id="upiModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">UPI Payment</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Scan the QR code below to pay via UPI:</p>
-                    <img src="images/pay.jpg" alt="UPI Barcode" class="upi-barcode">
-                    <p>Supported UPI Apps: Google Pay, PhonePe, Paytm, etc.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bank Transfer Modal -->
-    <div class="modal fade" id="bankTransferModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Bank Transfer</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Enter your bank details:</p>
-                    <form>
-                        <div class="mb-3">
-                            <label for="accountName" class="form-label">Account Name</label>
-                            <input type="text" class="form-control" id="accountName" placeholder="Your Name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="accountNumber" class="form-label">Account Number</label>
-                            <input type="text" class="form-control" id="accountNumber" placeholder="1234567890">
-                        </div>
-                        <div class="mb-3">
-                            <label for="ifscCode" class="form-label">IFSC Code</label>
-                            <input type="text" class="form-control" id="ifscCode" placeholder="ABCD0123456">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Card Payment Modal -->
-    <div class="modal fade" id="cardPaymentModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Card Payment</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Enter your card details:</p>
-                    <form>
-                        <div class="mb-3">
-                            <label for="cardNumber" class="form-label">Card Number</label>
-                            <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456">
-                        </div>
-                        <div class="mb-3">
-                            <label for="expiryDate" class="form-label">Expiry Date</label>
-                            <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY">
-                        </div>
-                        <div class="mb-3">
-                            <label for="cvv" class="form-label">CVV</label>
-                            <input type="text" class="form-control" id="cvv" placeholder="123">
-                        </div>
-                    </form>
-                </div>
             </div>
         </div>
     </div>
@@ -318,6 +210,7 @@ $hasAddress = !empty($user['address']); // Check if the address is set
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
     <script>
         function updateTotal() {
             let price = parseFloat(<?php echo $product['price']; ?>); // Get price from PHP
@@ -349,13 +242,70 @@ $hasAddress = !empty($user['address']); // Check if the address is set
         }
 
         function togglePayment(method) {
-            let onlinePaymentOptions = document.getElementById("onlinePaymentOptions");
+            let onlineOptions = document.getElementById("onlinePaymentOptions");
             if (method === 'online') {
-                onlinePaymentOptions.style.display = 'block';
+                onlineOptions.style.display = 'block';
             } else {
-                onlinePaymentOptions.style.display = 'none';
+                onlineOptions.style.display = 'none';
             }
         }
+
+        function openModal(modalId) {
+            let modal = new bootstrap.Modal(document.getElementById(modalId));
+            modal.show();
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("saveAddressBtn").addEventListener("click", function() {
+                let flat_house_no = document.getElementById("flat_house_no").value.trim();
+                let landmark = document.getElementById("landmark").value.trim();
+                let phone = document.getElementById("phone").value.trim();
+                let address = document.getElementById("address").value.trim();
+                let state = document.getElementById("state").value.trim();
+                let pin_no = document.getElementById("pin_no").value.trim();
+
+                if (!flat_house_no || !landmark || !address || !state || !pin_no || !phone) {
+                    alert("Please fill in all required fields.");
+                    return;
+                }
+
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", "save_address.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4) {
+                        if (xhr.status == 200) {
+                            let response = xhr.responseText.trim();
+                            if (response === "success") {
+                                alert("Address saved successfully!");
+                                
+                                // Close the Bootstrap modal
+                                let modalEl = document.getElementById('addressModal');
+                                let modalInstance = bootstrap.Modal.getInstance(modalEl);
+                                if (modalInstance) {
+                                    modalInstance.hide();
+                                }
+
+                                // Reload the page after closing the modal
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 500);
+                            } else if (response === "invalid_phone") {
+                                alert("Invalid phone number. Please enter a 10-digit phone number.");
+                            } else {
+                                alert("Error saving address. Please try again.");
+                            }
+                        } else {
+                            alert("Server error. Please check your connection.");
+                        }
+                    }
+                };
+
+                // Send the form data
+                xhr.send(`flat_house_no=${encodeURIComponent(flat_house_no)}&landmark=${encodeURIComponent(landmark)}&phone=${encodeURIComponent(phone)}&address=${encodeURIComponent(address)}&state=${encodeURIComponent(state)}&pin_no=${encodeURIComponent(pin_no)}`);
+            });
+        });
     </script>
 </body>
 </html>

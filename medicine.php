@@ -20,6 +20,7 @@ if ($search) {
     <title>Medicine List</title>
     
     <style>
+    
         .medicine-card {
             transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
             height: 100%;
@@ -74,12 +75,6 @@ if ($search) {
         </div>
     </div>
 
-    <!-- View Cart Button -->
-    <div class="text-end mb-3">
-        <a href="cart.php" class="btn btn-outline-success">
-            🛒 View Cart <span class="badge bg-danger" id="cart-count">0</span>
-        </a>
-    </div>
 
     <!-- Medicine Grid -->
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
