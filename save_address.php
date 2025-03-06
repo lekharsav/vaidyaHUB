@@ -1,5 +1,5 @@
 <?php
-session_start(); // Start the session
+session_start();
 include 'connect.php';  // Database connection
 
 // Ensure user is logged in
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    // Check if the phone number is valid (10 digits)
+    // Check if the phone number is valid (optional, customize based on requirements)
     if (!preg_match('/^[0-9]{10}$/', $phone)) { 
         echo "invalid_phone";
         exit;
