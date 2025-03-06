@@ -140,7 +140,7 @@ include "connect.php";
           </div>
 
           <div class="text-center">
-            <button type="submit" class="btn btn-success book-confirm">✅ Confirm Booking</button>
+            <button type="submit" class="btn btn-success book-confirm"> Confirm Booking</button>
           </div>
         </form>
       </div>

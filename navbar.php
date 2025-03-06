@@ -58,6 +58,7 @@ if (isset($_SESSION['uid']) && $_SESSION['uid'] != null) {
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 
   <header>
@@ -247,7 +248,7 @@ Essential Scripts
 <!-- Custom Scripts -->
 <script src="js/script.js"></script>
 <script src="js/contact.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   
 </body>
 </html>

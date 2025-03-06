@@ -1,17 +1,29 @@
 <?php
-include 'connect.php';
-include 'navbar.php';
+include 'connect.php'; // Include your database connection file
+include 'navbar.php'; // Include your navbar file
 
-$u_id = $_SESSION['uid']; // Assuming user is logged in
+// Check if the user is logged in
+if (!isset($_SESSION['uid'])) {
+    die("You must be logged in to access this page.");
+}
 
+$u_id = $_SESSION['uid']; // Get the logged-in user's ID
+
+// Check if the product ID is provided in the URL
 if (!isset($_GET['id'])) {
     die("Product not found.");
 }
 
-$id = intval($_GET['id']);
+$id = intval($_GET['id']); // Sanitize the product ID
+
+// Fetch product details from the database
 $query = "SELECT * FROM medicine WHERE id = $id";
 $result = mysqli_query($con, $query);
 $product = mysqli_fetch_assoc($result);
+
+if (!$product) {
+    die("Product not found.");
+}
 
 // Fetch user address details
 $userQuery = "SELECT address, state, landmark, flat_house_no, pin_no FROM users WHERE u_id = $u_id";
@@ -31,11 +43,12 @@ $hasAddress = !empty($user['address']); // Check if the address is set
     <!-- Custom CSS -->
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #26988c;
+            font-family: 'Arial', sans-serif;
         }
         .product-container {
             margin-top: 80px;
-            padding: 20px;
+            padding: 30px;
             background: white;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -47,7 +60,7 @@ $hasAddress = !empty($user['address']); // Check if the address is set
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .quantity-controls button {
-            background: #007bff;
+            background: #26988c;
             color: white;
             border: none;
             padding: 5px 15px;
@@ -78,22 +91,29 @@ $hasAddress = !empty($user['address']); // Check if the address is set
             margin-bottom: 20px;
         }
         .btn-primary {
-            background-color: #007bff;
+            background-color: #26988c;
             border: none;
             padding: 10px 20px;
             border-radius: 5px;
         }
         .btn-primary:hover {
-            background-color: #0056b3;
+            background-color: #26988c;
         }
         .btn-success {
-            background-color: #28a745;
+            background-color: #26988c;
             border: none;
             padding: 10px 20px;
             border-radius: 5px;
         }
         .btn-success:hover {
             background-color: #218838;
+        }
+        .payment-options {
+            display: none;
+            margin-top: 20px;
+        }
+        .payment-options button {
+            margin: 5px;
         }
     </style>
 </head>
@@ -110,16 +130,13 @@ $hasAddress = !empty($user['address']); // Check if the address is set
                 <p class="text-muted"><?php echo $product['description']; ?></p>
                 <p class="h4"><strong>Price:</strong> Rs <?php echo number_format($product['price'], 2); ?></p>
                 <form action="checkout.php" method="POST">
-                <input type="hidden" name="id" value="<?php echo htmlspecialchars($product['id']); ?>">
-    
-                <input type="hidden" name="total_price" id="hidden_total_price" value="<?php echo $product['price']; ?>">
-
-
-    <input type="hidden" name="flat_house_no" value="<?php echo htmlspecialchars($user['flat_house_no']); ?>">
-    <input type="hidden" name="landmark" value="<?php echo htmlspecialchars($user['landmark']); ?>">
-    <input type="hidden" name="address" value="<?php echo htmlspecialchars($user['address']); ?>">
-    <input type="hidden" name="state" value="<?php echo htmlspecialchars($user['state']); ?>">
-    <input type="hidden" name="pin_no" value="<?php echo htmlspecialchars($user['pin_no']); ?>">
+                    <input type="hidden" name="id" value="<?php echo htmlspecialchars($product['id']); ?>">
+                    <input type="hidden" name="total_price" id="hidden_total_price" value="<?php echo $product['price']; ?>">
+                    <input type="hidden" name="flat_house_no" value="<?php echo htmlspecialchars($user['flat_house_no']); ?>">
+                    <input type="hidden" name="landmark" value="<?php echo htmlspecialchars($user['landmark']); ?>">
+                    <input type="hidden" name="address" value="<?php echo htmlspecialchars($user['address']); ?>">
+                    <input type="hidden" name="state" value="<?php echo htmlspecialchars($user['state']); ?>">
+                    <input type="hidden" name="pin_no" value="<?php echo htmlspecialchars($user['pin_no']); ?>">
 
                     <!-- Quantity Controls -->
                     <div class="mb-4">
@@ -146,11 +163,16 @@ $hasAddress = !empty($user['address']); // Check if the address is set
                     </div>
 
                     <!-- Online Payment Options -->
-                    <div id="onlinePaymentOptions" style="display: none;">
-                        <h4>Choose Online Payment Method:</h4>
-                        <button type="button" class="btn btn-primary mb-2" onclick="showUPI()">UPI Payment</button>
-                        <button type="button" class="btn btn-primary mb-2" onclick="showBankTransfer()">Bank Transfer</button>
-                        <button type="button" class="btn btn-primary mb-2" onclick="showCardPayment()">Card Payment</button>
+                    <div id="onlinePaymentOptions" class="payment-options" style="color: #26988c;">
+                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#upiModal">
+                            UPI Payment
+                        </button>
+                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#bankTransferModal">
+                            Bank Transfer
+                        </button>
+                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#cardPaymentModal">
+                            Card Payment
+                        </button>
                     </div>
 
                     <!-- Delivery Address Section -->
@@ -177,7 +199,7 @@ $hasAddress = !empty($user['address']); // Check if the address is set
     </div>
 
     <!-- UPI Payment Modal -->
-    <div id="upiModal" class="modal fade" tabindex="-1">
+    <div class="modal fade" id="upiModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -187,18 +209,43 @@ $hasAddress = !empty($user['address']); // Check if the address is set
                 <div class="modal-body">
                     <p>Scan the QR code below to pay via UPI:</p>
                     <img src="images/pay.jpg" alt="UPI Barcode" class="upi-barcode">
-                    <p>Supported UPI IDs:</p>
-                    <ul>
-                        <li>example1@upi</li>
-                        <li>example2@upi</li>
-                    </ul>
+                    <p>Supported UPI Apps: Google Pay, PhonePe, Paytm, etc.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bank Transfer Modal -->
+    <div class="modal fade" id="bankTransferModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Bank Transfer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Enter your bank details:</p>
+                    <form>
+                        <div class="mb-3">
+                            <label for="accountName" class="form-label">Account Name</label>
+                            <input type="text" class="form-control" id="accountName" placeholder="Your Name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="accountNumber" class="form-label">Account Number</label>
+                            <input type="text" class="form-control" id="accountNumber" placeholder="1234567890">
+                        </div>
+                        <div class="mb-3">
+                            <label for="ifscCode" class="form-label">IFSC Code</label>
+                            <input type="text" class="form-control" id="ifscCode" placeholder="ABCD0123456">
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Card Payment Modal -->
-    <div id="cardModal" class="modal fade" tabindex="-1">
+    <div class="modal fade" id="cardPaymentModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -206,10 +253,11 @@ $hasAddress = !empty($user['address']); // Check if the address is set
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
+                    <p>Enter your card details:</p>
                     <form>
                         <div class="mb-3">
                             <label for="cardNumber" class="form-label">Card Number</label>
-                            <input type="text" class="form-control" id="cardNumber" placeholder="Enter card number">
+                            <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456">
                         </div>
                         <div class="mb-3">
                             <label for="expiryDate" class="form-label">Expiry Date</label>
@@ -217,9 +265,8 @@ $hasAddress = !empty($user['address']); // Check if the address is set
                         </div>
                         <div class="mb-3">
                             <label for="cvv" class="form-label">CVV</label>
-                            <input type="text" class="form-control" id="cvv" placeholder="CVV">
+                            <input type="text" class="form-control" id="cvv" placeholder="123">
                         </div>
-                        <button type="submit" class="btn btn-primary">Pay Now</button>
                     </form>
                 </div>
             </div>
@@ -257,7 +304,6 @@ $hasAddress = !empty($user['address']); // Check if the address is set
                                 <label for="state" class="form-label">State</label>
                                 <input type="text" class="form-control" id="state" required>
                             </div>
-                           
                             <div class="mb-3">
                                 <label for="pin_no" class="form-label">Pincode</label>
                                 <input type="text" class="form-control" id="pin_no" required>
@@ -272,30 +318,21 @@ $hasAddress = !empty($user['address']); // Check if the address is set
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
     <script>
         function updateTotal() {
-    let price = parseFloat(<?php echo $product['price']; ?>); // Get price from PHP
-    let qty = parseInt(document.getElementById("quantity").value) || 1;
-    let total = price * qty;
+            let price = parseFloat(<?php echo $product['price']; ?>); // Get price from PHP
+            let qty = parseInt(document.getElementById("quantity").value) || 1;
+            let total = price * qty;
 
-    // Update displayed total price
-    document.getElementById("total_price").innerText = "Rs " + total.toFixed(2);
+            // Update displayed total price
+            document.getElementById("total_price").innerText = "Rs " + total.toFixed(2);
 
-    // Ensure the hidden input gets updated
-    document.getElementById("hidden_total_price").value = total.toFixed(2);
-}
+            // Ensure the hidden input gets updated
+            document.getElementById("hidden_total_price").value = total.toFixed(2);
+        }
 
-// Initialize the total price on page load
-window.onload = updateTotal;
-
-
-    // Attach event listener to quantity field to update total dynamically
-    document.getElementById("quantity").addEventListener("input", updateTotalPrice);
-
-    // Run the function once to initialize the total price on page load
-    window.onload = updateTotal;
-      
+        // Initialize the total price on page load
+        window.onload = updateTotal;
 
         function increaseQuantity() {
             let qtyInput = document.getElementById("quantity");
@@ -312,90 +349,16 @@ window.onload = updateTotal;
         }
 
         function togglePayment(method) {
-            let onlineOptions = document.getElementById("onlinePaymentOptions");
+            let onlinePaymentOptions = document.getElementById("onlinePaymentOptions");
             if (method === 'online') {
-                onlineOptions.style.display = 'block';
+                onlinePaymentOptions.style.display = 'block';
             } else {
-                onlineOptions.style.display = 'none';
+                onlinePaymentOptions.style.display = 'none';
             }
         }
-
-        function showUPI() {
-            new bootstrap.Modal(document.getElementById('upiModal')).show();
-        }
-
-        function showCardPayment() {
-            new bootstrap.Modal(document.getElementById('cardModal')).show();
-        }
-
-        function showBankTransfer() {
-            alert("Bank transfer details will be sent to your email.");
-        }
-
     </script>
 </body>
 </html>
 <?php
 include 'footer.php';
 ?>
-<script>
-function openModal(modalId) {
-    let modal = new bootstrap.Modal(document.getElementById(modalId));
-    modal.show();
-}</script>
-<script>
-
-    document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("saveAddressBtn").addEventListener("click", function() {
-            let flat_house_no = document.getElementById("flat_house_no").value.trim();
-            let landmark = document.getElementById("landmark").value.trim();
-            let phone = document.getElementById("phone").value.trim(); // Fix: Ensure phone is captured
-            let address = document.getElementById("address").value.trim();
-            let state = document.getElementById("state").value.trim();
-            let pin_no = document.getElementById("pin_no").value.trim();
-
-            if (!flat_house_no || !landmark || !address || !state || !pin_no || !phone) {
-                alert("Please fill in all required fields.");
-                return;
-            }
-
-            let xhr = new XMLHttpRequest();
-            xhr.open("POST", "save_address.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4) {
-                    if (xhr.status == 200) {
-                        let response = xhr.responseText.trim();
-                        if (response === "success") {
-                            alert("Address saved successfully!");
-                            
-                            // Properly close the Bootstrap modal
-                            let modalEl = document.getElementById('addressModal');
-                            let modalInstance = bootstrap.Modal.getInstance(modalEl);
-                            if (modalInstance) {
-                                modalInstance.hide();
-                            }
-
-                            // Reload the page after closing the modal
-                            setTimeout(() => {
-                                location.reload();
-                            }, 500);
-                        } else {
-                            alert("Error saving address. Please try again.");
-                        }
-                    } else {
-                        alert("Server error. Please check your connection.");
-                    }
-                }
-            };
-
-            // ✅ Fix: Include phone number in the request
-            xhr.send(`flat_house_no=${encodeURIComponent(flat_house_no)}&landmark=${encodeURIComponent(landmark)}&phone=${encodeURIComponent(phone)}&address=${encodeURIComponent(address)}&state=${encodeURIComponent(state)}&pin_no=${encodeURIComponent(pin_no)}`);
-        });
-    });
-</script>
-
-   
-
-
