@@ -113,7 +113,8 @@ $result = mysqli_query($con, $sql);
             <div class="room-card">
                 <!-- Room Image -->
                 <div class="room-image">
-                    <img src="<?php echo $room['room_image']; ?>" alt="<?php echo $room['room_name']; ?>">
+                    <img src="images/service/<?php echo $room['room_image']; ?>" alt="<?php echo $room['room_name']; ?>" style="height: 350px;width: 200px;object-fit: cover;">
+                      
                 </div>
 
                 <!-- Room Details -->

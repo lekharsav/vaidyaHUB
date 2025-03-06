@@ -51,9 +51,7 @@ $doctorResult = mysqli_query($con, $doctorQuery);
         <div class="position-relative doctor-inner-box">
             <div class="doctor-profile">
                 <div class="doctor-img">
-                    <img src="product/' . htmlspecialchars($doctor["image"]) . '" alt="Medicine Image" style="    height: 300px;
-    width: 201px;
-    object-fit: cover;">
+                    <img src="doctors/' . htmlspecialchars($doctor["image"]) . '" alt="Medicine Image" style="height: 300px;width: 201px;object-fit: cover;">
                 </div>
             </div>
             <div class="content mt-3">

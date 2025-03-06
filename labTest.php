@@ -15,17 +15,17 @@ include "connect.php";
     if (mysqli_num_rows($result) > 0) {
       while ($row = mysqli_fetch_assoc($result)) {
         echo '
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-lg lab-card">
-                <img src="images/service/' . $row['image'] . '" class="card-img-top img-fluid" alt="' . $row['test_name'] . '">
+        <div class="col-md-4" >
+            <div class="card mb-4 shadow-lg lab-card" >
+                <img src="images/service/' . $row['image'] . '" class="card-img-top img-fluid" alt="' . $row['test_name'] . ' style =object-fit: cover;">
                 <div class="card-body text-center">
                     <h5 class="card-title fw-bold">' . $row['test_name'] . '</h5>
                     <p class="card-text text-muted">' . $row['description'] . '</p>
-                    <p class="card-text"><strong>💰 Price:</strong> ₹' . $row['price'] . '</p>
+                    <p class="card-text"><strong> Price:</strong> ₹' . $row['price'] . '</p>
                     <button class="btn book-btn" data-bs-toggle="modal" data-bs-target="#bookTestModal" 
                         data-id="' . $row['lt_id'] . '" 
                         data-name="' . $row['test_name'] . '">
-                        🚀 Book Now
+                        Book Now
                     </button>
                 </div>
             </div>
@@ -56,7 +56,7 @@ include "connect.php";
               <input type="text" class="form-control" id="test_name" name="test_name" readonly>
             </div>
             <div class="col-md-6 mb-3">
-              <label for="patient_name" class="form-label">Your Name</label>
+              <label for="patient_name" class="form-label">Patient Name</label>
               <input type="text" class="form-control" name="patient_name" required>
             </div>
           </div>
@@ -67,10 +67,48 @@ include "connect.php";
               <input type="date" class="form-control" name="test_date" required>
             </div>
             <div class="col-md-6 mb-3">
-              <label for="state" class="form-label">State</label>
-              <input type="text" class="form-control" name="state" required>
-            </div>
-          </div>
+    <label for="state" class="form-label">State</label>
+    <input list="states" class="form-control" name="state" placeholder="Type to search..." required>
+    <datalist id="states">
+        <option value="Andhra Pradesh">
+        <option value="Arunachal Pradesh">
+        <option value="Assam">
+        <option value="Bihar">
+        <option value="Chhattisgarh">
+        <option value="Goa">
+        <option value="Gujarat">
+        <option value="Haryana">
+        <option value="Himachal Pradesh">
+        <option value="Jharkhand">
+        <option value="Karnataka">
+        <option value="Kerala">
+        <option value="Madhya Pradesh">
+        <option value="Maharashtra">
+        <option value="Manipur">
+        <option value="Meghalaya">
+        <option value="Mizoram">
+        <option value="Nagaland">
+        <option value="Odisha">
+        <option value="Punjab">
+        <option value="Rajasthan">
+        <option value="Sikkim">
+        <option value="Tamil Nadu">
+        <option value="Telangana">
+        <option value="Tripura">
+        <option value="Uttar Pradesh">
+        <option value="Uttarakhand">
+        <option value="West Bengal">
+        <option value="Andaman and Nicobar Islands">
+        <option value="Chandigarh">
+        <option value="Dadra and Nagar Haveli and Daman and Diu">
+        <option value="Lakshadweep">
+        <option value="Delhi">
+        <option value="Puducherry">
+        <option value="Ladakh">
+        <option value="Jammu and Kashmir">
+    </datalist>
+</div>
+
 
           <div class="row">
             <div class="col-md-6 mb-3">
@@ -123,32 +161,53 @@ include "connect.php";
 <style>
   /* Smooth hover effect on lab test cards */
   .lab-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-radius: 12px;
-    overflow: hidden;
-  }
-  
-  .lab-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-  }
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
 
-  /* Custom Book Now button */
-  .book-btn {
-    background: linear-gradient(45deg, #007bff, #6610f2);
-    border: none;
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-  }
+    .lab-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
 
-  .book-btn:hover {
-    background: linear-gradient(45deg, #6610f2, #007bff);
-    transform: scale(1.1);
-  }
+    /* Image Container */
+    .card-img-top {
+        width: 100%;
+        height: 200px; /* Fixed height for all images */
+        object-fit: cover; /* Ensures the image covers the area without stretching */
+        object-position: center; /* Centers the image within the container */
+    }
+
+    /* Card Body */
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    /* Book Now Button */
+    .book-btn {
+        background-color: #26988c;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .book-btn:hover {
+        background-color: #1f7a6e;
+    }
 
   /* Smooth modal appearance */
   .modal-animate .modal-content {

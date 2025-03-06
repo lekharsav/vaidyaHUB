@@ -114,25 +114,23 @@ if (isset($_SESSION['uid']) && $_SESSION['uid'] != null) {
             </div>
 
 
-            <div class="nav-item dropdown" >
-    <a class="nav-link text-dark d-flex align-items-center dropdown-toggle" href="#" id="profileMenu" data-bs-toggle="dropdown" >
+            <div class="nav-item dropdown" style="padding-left: 20px;">
+    <a class="nav-link text-dark d-flex align-items-center dropdown-toggle" href="#" id="profileMenu" data-bs-toggle="dropdown">
         <?php if (isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN'] === 'yes') { ?>
             <img src="<?php echo $profile_pic; ?>" alt="User" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
         <?php } else { ?>
             <i class="icofont-user-alt-5 fs-4 me-2"></i>
         <?php } ?>
     </a>
-    <ul class="dropdown-menu border-0 shadow p-3">
+    <ul class="dropdown-menu border-0 shadow p-3 dropdown-menu-start" aria-labelledby="profileMenu">
         <?php if (isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN'] === 'yes') { ?>
-            <li><a class="dropdown-item" href="profile.php">My Account</a></li>
-            <li><a class="dropdown-item" href="add-account.php">Add Another Account</a></li>
-            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="profile.php">My Account </a></li>
             <li><a class="dropdown-item text-danger" href="logout.php">Logout</a></li>
         <?php } else { ?>
             <li><a class="dropdown-item" href="login.php">Login</a></li>
         <?php } ?>
     </ul>
-        </div>
+</div>
         </div>
     </nav>
 </header>
@@ -156,18 +154,60 @@ if (isset($_SESSION['uid']) && $_SESSION['uid'] != null) {
     }
 
     /* Profile Dropdown Styling */
+    /* Dropdown Menu Styling */
     .dropdown-menu {
-        min-width: 200px;
-        border-radius: 10px;
+        min-width: 200px; /* Set a minimum width for the dropdown */
+        border-radius: 10px; /* Rounded corners */
+        background-color: #fff; /* White background */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Soft shadow */
+        border: none; /* Remove default border */
+        padding: 10px 0; /* Add padding */
     }
 
-    .dropdown-menu a {
-        padding: 10px;
-        font-size: 14px;
+    .dropdown-item {
+        padding: 8px 16px; /* Add padding to dropdown items */
+        font-size: 14px; /* Set font size */
+        color: #333; /* Default text color */
+        border-radius: 8px; /* Rounded corners for items */
+        transition: all 0.3s ease; /* Smooth transition */
+        display: flex; /* Align items */
+        align-items: center; /* Center items vertically */
     }
 
-    .dropdown-menu a:hover {
-        background-color: #f8f9fa;
+    .dropdown-item:hover {
+        background-color: #f8f9fa; /* Light background on hover */
+        color: #26988c; /* Change text color on hover */
+        transform: translateX(5px); /* Slight move to the right */
+    }
+
+    .dropdown-item.text-danger {
+        color: #dc3545; /* Red color for logout */
+    }
+
+    .dropdown-item.text-danger:hover {
+        background-color: #f8d7da; /* Light red background on hover */
+        color: #dc3545; /* Keep red text on hover */
+    }
+
+    .dropdown-divider {
+        margin: 8px 0; /* Add margin to the divider */
+        border-top: 1px solid #e9ecef; /* Light border color */
+    }
+
+    /* Profile Picture Styling */
+    .rounded-circle {
+        border: 2px solid #26988c; /* Add a border to the profile picture */
+        transition: transform 0.3s ease; /* Smooth transition */
+    }
+
+    .rounded-circle:hover {
+        transform: scale(1.1); /* Slightly enlarge on hover */
+    }
+
+    /* Dropdown Toggle Arrow Styling */
+    .dropdown-toggle::after {
+        vertical-align: middle; /* Align the arrow vertically */
+        margin-left: 8px; /* Add space between icon and arrow */
     }
 </style>
 
