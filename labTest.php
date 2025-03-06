@@ -5,7 +5,12 @@ include "connect.php";
 
 <!-- Lab Test Section -->
 <div class="container mt-5">
-  <h2 class="text-center mb-4">📑 Book a Lab Test</h2>
+  <h2 class="text-center mb-4">Book a Lab Test</h2>
+
+  <!-- Button to View Bookings -->
+  <div class="text-center mb-4">
+    <button class="btn view-bookings-btn" data-bs-toggle="modal" data-bs-target="#viewBookingsModal"> View User Bookings</button>
+  </div>
 
   <div class="row">
     <?php
@@ -15,9 +20,9 @@ include "connect.php";
     if (mysqli_num_rows($result) > 0) {
       while ($row = mysqli_fetch_assoc($result)) {
         echo '
-        <div class="col-md-4" >
-            <div class="card mb-4 shadow-lg lab-card" >
-                <img src="images/service/' . $row['image'] . '" class="card-img-top img-fluid" alt="' . $row['test_name'] . ' style =object-fit: cover;">
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-lg lab-card">
+                <img src="images/service/' . $row['image'] . '" class="card-img-top img-fluid" alt="' . $row['test_name'] . '" style="object-fit: cover;">
                 <div class="card-body text-center">
                     <h5 class="card-title fw-bold">' . $row['test_name'] . '</h5>
                     <p class="card-text text-muted">' . $row['description'] . '</p>
@@ -43,7 +48,7 @@ include "connect.php";
   <div class="modal-dialog modal-lg modal-animate"> <!-- Smooth transition effect -->
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalLabel">🧪 Book Your Lab Test</h5>
+        <h5 class="modal-title" id="modalLabel"> Book Your Lab Test</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -109,6 +114,7 @@ include "connect.php";
     </datalist>
 </div>
 
+          </div>
 
           <div class="row">
             <div class="col-md-6 mb-3">
@@ -140,13 +146,68 @@ include "connect.php";
           </div>
 
           <div class="text-center">
-            <button type="submit" class="btn btn-success book-confirm"> Confirm Booking</button>
+            <button type="submit" class="btn btn-success book-confirm">Confirm Booking</button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
+
+<!-- View Bookings Modal -->
+<div class="modal fade" id="viewBookingsModal" tabindex="-1" aria-labelledby="bookingsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-animate"> <!-- Smooth transition effect -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="bookingsModalLabel">Your Bookings</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <?php
+        // Fetch user bookings from the database
+        $u_id = isset($_SESSION['uid']) ? $_SESSION['uid'] : null;
+        if ($u_id) {
+          $query = "SELECT lb.*, lt.test_name FROM labtest_bookings lb 
+                    JOIN lab_tests lt ON lb.test_id = lt.lt_id 
+                    WHERE lb.u_id = '$u_id'";
+          $result = mysqli_query($con, $query);
+
+          if (mysqli_num_rows($result) > 0) {
+            echo '<table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Test Name</th>
+                        <th>Patient Name</th>
+                        <th>Email</th>
+                        <th>Phone No</th>
+                        <th>Test Date</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>';
+            while ($row = mysqli_fetch_assoc($result)) {
+              echo '<tr>
+                      <td>' . $row['test_name'] . '</td>
+                      <td>' . $row['patient_name'] . '</td>
+                      <td>' . $row['email'] . '</td>
+                      <td>' . $row['phone_no'] . '</td>
+                      <td>' . $row['test_date'] . '</td>
+                      <td>' . $row['status'] . '</td>
+                    </tr>';
+            }
+            echo '</tbody></table>';
+          } else {
+            echo '<p class="text-center">No bookings found.</p>';
+          }
+        } else {
+          echo '<p class="text-center">You must be logged in to view your bookings.</p>';
+        }
+        ?>
+      </div>
+    </div>
+  </div>
+</div>
+
 <?php include "footer.php"?>
 <script>
   // Set modal values when booking button is clicked
@@ -157,85 +218,101 @@ include "connect.php";
     });
   });
 </script>
-
 <style>
   /* Smooth hover effect on lab test cards */
-  .lab-card {
-        border: 1px solid #e0e0e0;
-        border-radius: 10px;
-        overflow: hidden;
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
+.lab-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
 
-    .lab-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
+.lab-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
 
-    /* Image Container */
-    .card-img-top {
-        width: 100%;
-        height: 200px; /* Fixed height for all images */
-        object-fit: cover; /* Ensures the image covers the area without stretching */
-        object-position: center; /* Centers the image within the container */
-    }
+/* "View User Bookings" Button */
+.view-bookings-btn {
+    background-color: #26988c;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
 
-    /* Card Body */
-    .card-body {
-        padding: 20px;
-    }
+.view-bookings-btn:hover {
+    background-color: rgb(110, 194, 185);
+    text-decoration: none;
+}
 
-    .card-title {
-        font-size: 1.25rem;
-        margin-bottom: 10px;
-    }
+/* Image Container */
+.card-img-top {
+    width: 100%;
+    height: 200px; /* Fixed height for all images */
+    object-fit: cover; /* Ensures the image covers the area without stretching */
+    object-position: center; /* Centers the image within the container */
+}
 
-    .card-text {
-        font-size: 0.9rem;
-        color: #666;
-    }
+/* Card Body */
+.card-body {
+    padding: 20px;
+}
 
-    /* Book Now Button */
-    .book-btn {
-        background-color: #26988c;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        transition: background-color 0.3s;
-    }
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+}
 
-    .book-btn:hover {
-        background-color: #1f7a6e;
-    }
+.card-text {
+    font-size: 0.9rem;
+    color: #666;
+}
 
-  /* Smooth modal appearance */
-  .modal-animate .modal-content {
+/* Book Now Button */
+.book-btn {
+    background-color: #26988c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.book-btn:hover {
+    background-color: #1f7a6e;
+}
+
+/* Smooth modal appearance */
+.modal-animate .modal-content {
     animation: fadeInUp 0.5s ease-in-out;
-  }
+}
 
-  @keyframes fadeInUp {
+@keyframes fadeInUp {
     from {
-      transform: translateY(50px);
-      opacity: 0;
+        transform: translateY(50px);
+        opacity: 0;
     }
     to {
-      transform: translateY(0);
-      opacity: 1;
+        transform: translateY(0);
+        opacity: 1;
     }
-  }
+}
 
-  /* Confirm Booking Button */
-  .book-confirm {
+/* Confirm Booking Button */
+.book-confirm {
     background-color: #28a745;
     border: none;
     padding: 10px 20px;
     font-size: 16px;
     transition: all 0.3s ease;
-  }
+}
 
-  .book-confirm:hover {
+.book-confirm:hover {
     background-color: #218838;
     transform: scale(1.1);
-  }
+}
+
 </style>
