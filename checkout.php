@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $p_id = intval($_POST['id']);
     $quantity = intval($_POST['quantity']);
-    $total_price = floatval($_POST['total_price']);
+    $total_price = intval($_POST['total_price']);
     $payment_method = $_POST['payment']; // Fix: Ensure it exists before using it
 
     // For online payment, transaction ID must be set
@@ -51,14 +51,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               VALUES ('$u_id', '$p_id', '$quantity', '$total_price', '$payment_method', '$transaction_id', '$order_date', '$delivery_date', '$status', '$phone', '$flat_house_no', '$landmark', '$address', '$state', '$pin_no')";
 
     if (mysqli_query($con, $query)) {
-      echo '
-<div>
-<div>
-    <span></span>
-    <h2>Thank You!</h2>
-    <p>Your order has been placed successfully.</p>
-</div>
-</div>';
+        echo '
+        <script>
+            setTimeout(function() {
+                document.getElementById("orderModal").style.display = "block";
+            }, 2000); // Show modal after 3 seconds
+        </script>';
     } else {
         echo "Error: " . mysqli_error($con);
     }
@@ -67,7 +65,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 ?>
+<!-- Modal Structure -->
 
+<!-- Modal Structure -->
+<div id="orderModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Thank You!</h2>
+        <p>Your order has been placed successfully.</p>
+        <button onclick="closeModal()">OK</button>
+    </div>
+</div>
+
+<!-- Styles for Modal -->
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    .modal-content {
+        background-color: #fff;
+        padding: 20px;
+        margin: 15% auto;
+        width: 30%;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .close {
+        float: right;
+        cursor: pointer;
+        font-size: 20px;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+</style>
+
+<!-- JavaScript for Modal -->
+<script>
+    function closeModal() {
+        document.getElementById("orderModal").style.display = "none";
+        window.location.href = "index.php"; // Redirect after closing modal
+    }
+</script>
 
 <style>
     .modal {
