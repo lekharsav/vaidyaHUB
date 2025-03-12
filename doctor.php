@@ -22,23 +22,28 @@ $doctorResult = mysqli_query($con, $doctorQuery);
 
     <!-- Search and Filter Section -->
     <div class="row justify-content-center mb-5">
-      <div class="col-md-6 text-center">
-        <!-- Search Bar -->
-        <input type="text" id="search-bar" class="form-control mb-3" placeholder="Search by doctor name...">
-        <!-- Specialization Filter Dropdown -->
-        <select id="specialization-filter" class="form-control">
-          <option value="all">All Specializations</option>
-          <?php
-          // Fetch all unique specializations
-          $specializationQuery = "SELECT DISTINCT specialization FROM doctors WHERE status = 1";
-          $specializationResult = mysqli_query($con, $specializationQuery);
+      <div class="col-md-8 text-center">
+        <div class="search-filter-container">
+          <!-- Filter Dropdown with Icon -->
+          <div class="filter-dropdown">
+            <i class="fas fa-filter"></i>
+            <select id="specialization-filter" class="form-control">
+              <option value="all">All Specializations</option>
+              <?php
+              // Fetch all unique specializations
+              $specializationQuery = "SELECT DISTINCT specialization FROM doctors WHERE status = 1";
+              $specializationResult = mysqli_query($con, $specializationQuery);
 
-          while ($specialization = mysqli_fetch_assoc($specializationResult)) {
-            $catValue = strtolower(str_replace(' ', '', $specialization['specialization'])); // Remove spaces and convert to lowercase
-            echo '<option value="' . $catValue . '">' . $specialization['specialization'] . '</option>';
-          }
-          ?>
-        </select>
+              while ($specialization = mysqli_fetch_assoc($specializationResult)) {
+                $catValue = strtolower(str_replace(' ', '', $specialization['specialization'])); // Remove spaces and convert to lowercase
+                echo '<option value="' . $catValue . '">' . $specialization['specialization'] . '</option>';
+              }
+              ?>
+            </select>
+          </div>
+          <!-- Search Bar -->
+          <input type="text" id="search-bar" class="form-control" placeholder="Search by doctor name...">
+        </div>
       </div>
     </div>
 
@@ -51,7 +56,7 @@ $doctorResult = mysqli_query($con, $doctorQuery);
                 <div class="position-relative doctor-inner-box" onclick="window.location.href=\'doctor-single.php?id=' . $doctor['d_id'] . '\'">
                     <div class="doctor-profile">
                         <div class="doctor-img">
-                            <img src="doctors/' . htmlspecialchars($doctor["image"]) . '" alt="Doctor Image" class="img-fluid">
+                            <img src="doctors/' . htmlspecialchars($doctor["image"]) . '" alt="Doctor Image">
                         </div>
                     </div>
                     <div class="content mt-3">
@@ -106,18 +111,55 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- Add this CSS for the search bar, filter dropdown, and doctor cards -->
 <style>
-/* Search Bar and Filter Dropdown */
-#search-bar, #specialization-filter {
+/* Search and Filter Container */
+.search-filter-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Filter Dropdown with Icon */
+.filter-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.filter-dropdown i {
+  position: absolute;
+  left: 10px;
+  color: #26988c;
+  z-index: 1;
+}
+
+#specialization-filter {
+  border: 1px solid #26988c;
+  border-radius: 5px;
+  padding: 10px 10px 10px 35px; /* Add padding for the icon */
+  font-size: 16px;
+  width: 150px;
+  appearance: none; /* Remove default arrow */
+  background-color: #fff;
+  cursor: pointer;
+}
+
+#specialization-filter:focus {
+  outline: none;
+  border-color: #1f7a6f;
+}
+
+/* Search Bar */
+#search-bar {
   border: 1px solid #26988c;
   border-radius: 5px;
   padding: 10px;
   font-size: 16px;
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto 20px;
+  flex-grow: 1;
 }
 
-#search-bar:focus, #specialization-filter:focus {
+#search-bar:focus {
   outline: none;
   border-color: #1f7a6f;
 }
@@ -134,6 +176,9 @@ document.addEventListener('DOMContentLoaded', function() {
   overflow: hidden;
   transition: all 0.3s ease;
   cursor: pointer;
+  height: 400px; /* Fixed height for all cards */
+  display: flex;
+  flex-direction: column;
 }
 
 .doctor-inner-box:hover {
@@ -142,15 +187,30 @@ document.addEventListener('DOMContentLoaded', function() {
   border-color: #26988c;
 }
 
+.doctor-img {
+  width: 100%;
+  height: 250px; /* Fixed height for the image container */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f9fa; /* Optional: Add a background color */
+}
+
 .doctor-img img {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
+  height: 100%;
+  object-fit: cover; /* Ensure the image covers the container */
+  border-radius: 10px 10px 0 0; /* Rounded corners at the top */
 }
 
 .content {
   padding: 15px;
   text-align: center;
+  flex-grow: 1; /* Allow the content to take up remaining space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .content h4 {
@@ -164,3 +224,6 @@ document.addEventListener('DOMContentLoaded', function() {
   color: #666;
 }
 </style>
+
+<!-- Add Font Awesome for the filter icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
