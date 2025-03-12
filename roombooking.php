@@ -1,11 +1,17 @@
 <?php
+// Start output buffering to prevent headers already sent error
+ob_start();
+
 include "navbar.php";
+
 
 // Redirect to login if user is not logged in
 if (!isset($_SESSION['USER_LOGIN']) || $_SESSION['USER_LOGIN'] != 'yes') {
     header("Location: login.php");
     exit();
 }
+
+// Include necessary files
 
 include('connect.php'); // Include your database connection file
 
@@ -292,3 +298,8 @@ $result = mysqli_query($con, $sql);
     </script>
 </body>
 </html>
+
+<?php
+// End output buffering and send output to the browser
+ob_end_flush();
+?>
