@@ -56,7 +56,7 @@ $doctorResult = mysqli_query($con, $doctorQuery);
                 <div class="position-relative doctor-inner-box" onclick="window.location.href=\'doctor-single.php?id=' . $doctor['d_id'] . '\'">
                     <div class="doctor-profile">
                         <div class="doctor-img">
-                            <img src="doctors/' . htmlspecialchars($doctor["image"]) . '" alt="Doctor Image">
+                            <img src="doctor\doctor_img/' . htmlspecialchars($doctor["image"]) . '" alt="Doctor Image">
                         </div>
                     </div>
                     <div class="content mt-3">

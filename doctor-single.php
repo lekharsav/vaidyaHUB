@@ -15,10 +15,12 @@ $doctorQuery = "SELECT * FROM doctors WHERE d_id = $doctorId";
 $doctorResult = mysqli_query($con, $doctorQuery);
 $doctor = mysqli_fetch_assoc($doctorResult);
 
-// Fetch reviews for this doctor
-$reviewsQuery = "SELECT dr.*, u.u_name FROM doctor_reviews dr 
+// Fetch reviews for this doctor with user details
+$reviewsQuery = "SELECT dr.*, u.u_name, u.u_img 
+                 FROM doctor_reviews dr 
                  JOIN users u ON dr.user_id = u.u_id 
-                 WHERE dr.doctor_id = $doctorId ORDER BY dr.added_on DESC";
+                 WHERE dr.doctor_id = $doctorId 
+                 ORDER BY dr.added_on DESC";
 $reviewsResult = mysqli_query($con, $reviewsQuery);
 
 // Set $userId if the user is logged in
@@ -32,12 +34,12 @@ $userId = isset($_SESSION['uid']) ? $_SESSION['uid'] : null;
       <div class="col-lg-4">
         <div class="card mb-4">
           <div class="card-body text-center">
-            <img src="doctors/<?php echo htmlspecialchars($doctor['image']); ?>" alt="Doctor Image" class="img-fluid rounded-circle mb-3" style="width: 200px; height: 200px; object-fit: cover;">
+            <img src="doctor\doctor_img/<?php echo htmlspecialchars($doctor['image']); ?>" alt="Doctor Image" class="img-fluid rounded-circle mb-3" style="width: 200px; height: 200px; object-fit: cover;">
             <h2 class="card-title"><?php echo htmlspecialchars($doctor['d_name']); ?></h2>
             <p class="text-muted"><?php echo htmlspecialchars($doctor['specialization']); ?></p>
             <hr>
             <p><strong>Experience:</strong> <?php echo htmlspecialchars($doctor['experience']); ?> years</p>
-            <p><strong>Consultation Fee:</strong> $<?php echo htmlspecialchars($doctor['consultation_fee']); ?></p>
+            <p><strong>Consultation Fee:</strong>₹<?php echo htmlspecialchars($doctor['consultation_fee']); ?></p>
             <p><strong>Available Days:</strong> <?php echo htmlspecialchars($doctor['available_days']); ?></p>
             <p><strong>Available Time:</strong> <?php echo htmlspecialchars($doctor['available_time']); ?></p>
             <hr>
@@ -99,6 +101,7 @@ $userId = isset($_SESSION['uid']) ? $_SESSION['uid'] : null;
                   while ($review = mysqli_fetch_assoc($reviewsResult)) {
                     echo '<div class="carousel-item' . ($isFirst ? ' active' : '') . '">';
                     echo '<div class="review text-center">';
+                    // echo '<img src="images/profilepic/' . htmlspecialchars($review['u_img']) . '" alt="User Image" class="img-fluid rounded-circle mb-3" style="width: 100px; height: 100px; object-fit: cover;">';
                     echo '<p><strong>' . htmlspecialchars($review['u_name']) . ':</strong> ' . htmlspecialchars($review['review_text']) . '</p>';
                     echo '<p class="text-muted"><small>' . date("F j, Y, g:i a", strtotime($review['added_on'])) . '</small></p>';
                     echo '</div></div>';
@@ -149,6 +152,7 @@ $userId = isset($_SESSION['uid']) ? $_SESSION['uid'] : null;
 
 <script>
 $(document).ready(function() {
+    // Handle review form submission
     $("#doctorReviewForm").submit(function(e) {
         e.preventDefault();
         var reviewText = $("#doctorReviewText").val();

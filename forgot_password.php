@@ -2,48 +2,51 @@
 session_start();
 include('connect.php'); // Ensure this file connects to the database
 
-if (!isset($_SESSION['otp'])) {
-    // Redirect if OTP is not set
-    header('Location: signup.php');
-    exit();
-}
-
 $msg = '';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['verify'])) {
-    $entered_otp = $_POST['otp'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['send_otp'])) {
+    $email = mysqli_real_escape_string($con, $_POST['email']);
 
-    if ($entered_otp == $_SESSION['otp']) {
-        // Check if this is for signup or password reset
-        if (isset($_SESSION['name']) && isset($_SESSION['email']) && isset($_SESSION['phone']) && isset($_SESSION['hashed_password'])) {
-            // Signup OTP Verification
-            $name = $_SESSION['name'];
-            $email = $_SESSION['email'];
-            $phone = $_SESSION['phone'];
-            $hashed_password = $_SESSION['hashed_password'];
+    // Check if the email exists in the database
+    $sql = "SELECT * FROM users WHERE email = ?";
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-            // Insert user into the database
-            $stmt = $con->prepare("INSERT INTO users (u_name, email, phone, password) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $name, $email, $phone, $hashed_password);
+    if ($result->num_rows > 0) {
+        // Generate OTP
+        $otp = rand(1000, 9999);
 
-            if ($stmt->execute()) {
-                // Clear session data after successful registration
-                unset($_SESSION['otp'], $_SESSION['name'], $_SESSION['email'], $_SESSION['phone'], $_SESSION['hashed_password']);
+        // Store OTP and email in session
+        $_SESSION['otp'] = $otp;
+        $_SESSION['email'] = $email;
 
-                // Redirect to login page
-                header('Location: login.php');
-                exit();
-            } else {
-                die('Database error: ' . $stmt->error);
-            }
-        } elseif (isset($_SESSION['email'])) {
-            // Password Reset OTP Verification
-            // Redirect to reset password page
-            header('Location: reset_password.php');
+        // Send OTP via Email
+        include('smtp/PHPMailerAutoload.php');
+        $mail = new PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'lekharsavbose@gmail.com'; // Replace with your email
+            $mail->Password = 'zhaxpeydxrfhdxad'; // Replace with your app password
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
+
+            $mail->setFrom('lekharsavbose@gmail.com', 'Vaidhyahub');
+            $mail->addAddress($email);
+            $mail->Subject = 'Password Reset OTP';
+            $mail->Body = 'Your OTP for password reset is: ' . $otp;
+
+            $mail->send();
+            header("Location: verify_otp.php"); // Redirect to OTP verification page
             exit();
+        } catch (Exception $e) {
+            $msg = "Failed to send OTP. Please try again.";
         }
     } else {
-        $msg = "Invalid OTP. Please try again.";
+        $msg = "Email not found. Please enter a registered email.";
     }
 }
 ?>
@@ -53,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['verify'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify OTP</title>
+    <title>Forgot Password</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         body {
@@ -128,13 +131,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['verify'])) {
 </head>
 <body>
     <div class="container">
-        <h2>Verify OTP</h2>
+        <h2>Forgot Password</h2>
         <form method="POST">
             <div class="input-group">
-                <label for="otp">Enter OTP:</label>
-                <input type="text" id="otp" name="otp" placeholder="Enter OTP" required>
+                <label for="email">Enter your email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
             </div>
-            <button type="submit" class="btn" name="verify">Verify OTP</button>
+            <button type="submit" class="btn" name="send_otp">Send OTP</button>
             <?php if ($msg != ''): ?>
                 <p class="error-message"><?php echo $msg; ?></p>
             <?php endif; ?>
