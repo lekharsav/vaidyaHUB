@@ -1,6 +1,7 @@
 <?php
 include 'connect.php';
 
+// Fetch all orders that are not yet delivered
 $sql = "SELECT * FROM orders WHERE status != 'Delivered'";
 $result = mysqli_query($con, $sql);
 
@@ -26,13 +27,15 @@ while ($order = mysqli_fetch_assoc($result)) {
     // Only update if status has changed
     if ($new_status !== $order['status']) {
         $update_query = "UPDATE orders SET status='$new_status' WHERE o_id=$o_id";
-        $insert_query = "INSERT INTO order_tracking (o_id, status) VALUES ($o_id, '$new_status')";
+        $insert_query = "INSERT INTO order_tracking (o_id, status, updated_at) VALUES ($o_id, '$new_status', NOW())";
 
         if (mysqli_query($con, $update_query) && mysqli_query($con, $insert_query)) {
-            echo "Updated order $o_id to status: $new_status <br>";
+            echo "✅ Order #$o_id updated to status: <strong>$new_status</strong><br>";
         } else {
-            echo "Error updating order $o_id: " . mysqli_error($con) . "<br>";
+            echo "❌ Error updating order #$o_id: " . mysqli_error($con) . "<br>";
         }
     }
 }
+
+mysqli_close($con);
 ?>
