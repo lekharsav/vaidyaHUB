@@ -1,49 +1,28 @@
 <?php
 session_start();
-include('connect.php'); // Ensure this file connects to the database
 
-if (!isset($_SESSION['otp'])) {
-    // Redirect if OTP is not set
-    header('Location: signup.php');
+if (!isset($_SESSION['email'])) {
+    header("Location: forgot_password.php"); // Redirect if email is not set
     exit();
 }
 
 $msg = '';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['verify'])) {
-    $entered_otp = $_POST['otp'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reset_password'])) {
+    $new_password = md5($_POST['new_password']); // Hash the new password
+    $email = $_SESSION['email'];
 
-    if ($entered_otp == $_SESSION['otp']) {
-        // Check if this is for signup or password reset
-        if (isset($_SESSION['name']) && isset($_SESSION['email']) && isset($_SESSION['phone']) && isset($_SESSION['hashed_password'])) {
-            // Signup OTP Verification
-            $name = $_SESSION['name'];
-            $email = $_SESSION['email'];
-            $phone = $_SESSION['phone'];
-            $hashed_password = $_SESSION['hashed_password'];
+    // Update the password in the database
+    include('connect.php');
+    $sql = "UPDATE users SET password = ? WHERE email = ?";
+    $stmt = $con->prepare($sql);
+    $stmt->bind_param("ss", $new_password, $email);
 
-            // Insert user into the database
-            $stmt = $con->prepare("INSERT INTO users (u_name, email, phone, password) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $name, $email, $phone, $hashed_password);
-
-            if ($stmt->execute()) {
-                // Clear session data after successful registration
-                unset($_SESSION['otp'], $_SESSION['name'], $_SESSION['email'], $_SESSION['phone'], $_SESSION['hashed_password']);
-
-                // Redirect to login page
-                header('Location: login.php');
-                exit();
-            } else {
-                die('Database error: ' . $stmt->error);
-            }
-        } elseif (isset($_SESSION['email'])) {
-            // Password Reset OTP Verification
-            // Redirect to reset password page
-            header('Location: reset_password.php');
-            exit();
-        }
+    if ($stmt->execute()) {
+        session_destroy(); // Clear session data
+        $msg = "Password reset successfully. <a href='login.php'>Login</a> with your new password.";
     } else {
-        $msg = "Invalid OTP. Please try again.";
+        $msg = "Failed to reset password. Please try again.";
     }
 }
 ?>
@@ -53,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['verify'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify OTP</title>
+    <title>Reset Password</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         body {
@@ -119,6 +98,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['verify'])) {
             background: #0e8386;
         }
 
+        .success-message {
+            color: green;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
         .error-message {
             color: red;
             font-size: 14px;
@@ -128,15 +113,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['verify'])) {
 </head>
 <body>
     <div class="container">
-        <h2>Verify OTP</h2>
+        <h2>Reset Password</h2>
         <form method="POST">
             <div class="input-group">
-                <label for="otp">Enter OTP:</label>
-                <input type="text" id="otp" name="otp" placeholder="Enter OTP" required>
+                <label for="new_password">New Password:</label>
+                <input type="password" id="new_password" name="new_password" placeholder="Enter new password" required>
             </div>
-            <button type="submit" class="btn" name="verify">Verify OTP</button>
+            <button type="submit" class="btn" name="reset_password">Reset Password</button>
             <?php if ($msg != ''): ?>
-                <p class="error-message"><?php echo $msg; ?></p>
+                <p class="<?php echo strpos($msg, 'successfully') !== false ? 'success-message' : 'error-message'; ?>"><?php echo $msg; ?></p>
             <?php endif; ?>
         </form>
     </div>

@@ -84,17 +84,11 @@ if (isset($_SESSION['uid']) && $_SESSION['uid'] != null) {
                     <li class="nav-item"><a class="nav-link text-dark" href="about.php">About</a></li>
                     <li class="nav-item"><a class="nav-link text-dark" href="order_details.php">Order</a></li>
 
+                    <!-- Reviews Link -->
+                    <li class="nav-item"><a class="nav-link text-dark" href="reviews.php">Reviews</a></li>
 
                     <!-- Doctor Dropdown -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">Doctors</a>
-                        <ul class="dropdown-menu border-0 shadow">
-                            <li><a class="dropdown-item" href="doctor.php">Our Doctors</a></li>
-                            <li><a class="dropdown-item" href="doctor-single.php">Doctor Profile</a></li>
-                            <li><a class="dropdown-item" href="appointment.php">Book Appointment</a></li>
-                        </ul>
-                    </li>
-
+                    <li class="nav-item"><a class="nav-link text-dark" href="doctor.php">Doctors</a></li>
 
                 <!-- Right Side Buttons -->
                 <ul class="navbar-nav d-flex align-items-center">
@@ -107,31 +101,26 @@ if (isset($_SESSION['uid']) && $_SESSION['uid'] != null) {
                     </li>
 
                     <!-- Profile Button with Pop-out Menu -->
-                    
-
-
-
+                    <div class="nav-item dropdown" style="padding-left: 20px;">
+                        <a class="nav-link text-dark d-flex align-items-center dropdown-toggle" href="#" id="profileMenu" data-bs-toggle="dropdown">
+                            <?php if (isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN'] === 'yes') { ?>
+                                <img src="<?php echo $profile_pic; ?>" alt="User" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                            <?php } else { ?>
+                                <i class="icofont-user-alt-5 fs-4 me-2"></i>
+                            <?php } ?>
+                        </a>
+                        <ul class="dropdown-menu border-0 shadow p-3 dropdown-menu-start" aria-labelledby="profileMenu">
+                            <?php if (isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN'] === 'yes') { ?>
+                                <li><a class="dropdown-item" href="profile.php">My Account </a></li>
+                                <li><a class="dropdown-item text-danger" href="logout.php">Logout</a></li>
+                            <?php } else { ?>
+                                <li><a class="dropdown-item" href="login.php">Login</a></li>
+                                <li><a class="dropdown-item text-danger" href="doctor/login.php">Doctors Login</a></li>
+                            <?php } ?>
+                        </ul>
+                    </div>
                 </ul>
             </div>
-
-
-            <div class="nav-item dropdown" style="padding-left: 20px;">
-    <a class="nav-link text-dark d-flex align-items-center dropdown-toggle" href="#" id="profileMenu" data-bs-toggle="dropdown">
-        <?php if (isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN'] === 'yes') { ?>
-            <img src="<?php echo $profile_pic; ?>" alt="User" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
-        <?php } else { ?>
-            <i class="icofont-user-alt-5 fs-4 me-2"></i>
-        <?php } ?>
-    </a>
-    <ul class="dropdown-menu border-0 shadow p-3 dropdown-menu-start" aria-labelledby="profileMenu">
-        <?php if (isset($_SESSION['USER_LOGIN']) && $_SESSION['USER_LOGIN'] === 'yes') { ?>
-            <li><a class="dropdown-item" href="profile.php">My Account </a></li>
-            <li><a class="dropdown-item text-danger" href="logout.php">Logout</a></li>
-        <?php } else { ?>
-            <li><a class="dropdown-item" href="login.php">Login</a></li>
-        <?php } ?>
-    </ul>
-</div>
         </div>
     </nav>
 </header>
